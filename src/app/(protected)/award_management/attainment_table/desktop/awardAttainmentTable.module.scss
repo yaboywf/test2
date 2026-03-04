@@ -1,0 +1,246 @@
+@use 'sass:list';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-left: 10px;
+}
+
+.pagination_container {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-items: center;
+
+    p {
+        font-size: 12px;
+        color: gray;
+    }
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+
+    button {
+        background: white;
+        color: black;
+        border: 1px solid #ccc;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin: 0;
+
+        &:hover:not(:disabled) {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &.active_page {
+            background: black;
+            color: white;
+            border-color: black;
+        }
+    }
+}
+
+.attainment_table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    margin-left: 10px;
+    scroll-behavior: auto;
+
+    &.dragging {
+        user-select: none;
+
+        * {
+            pointer-events: none;
+        }
+    }
+}
+
+.table {
+    display: grid;
+    animation: fadeIn 0.5s ease-in-out;
+
+    div {
+        display: contents;
+
+        * {
+            font-size: 14px;
+            padding: 8px 10px;
+            line-height: 1.2;
+        }
+
+        >* {
+            border-left: 1px solid #f5f5f5;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        >*:last-child {
+            border-right: 1px solid #d3d3d3;
+        }
+
+        &:first-of-type>* {
+            border-top: 1px solid #d3d3d3;
+            border-bottom: 1px solid #d3d3d3;
+            background: #f5f5f5;
+            color: gray;
+            text-transform: uppercase;
+        }
+
+        &:first-of-type>*:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        &:first-of-type>*:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        &:last-of-type>* {
+            border-bottom: 1px solid #d3d3d3;
+        }
+
+        &:last-of-type>*:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        &:last-of-type>*:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
+        &:nth-child(odd):not(:first-of-type)>* {
+            background: #f9fafb;
+        }
+
+        &:first-of-type p:first-of-type {
+            position: sticky;
+            left: 0;
+            z-index: 2;
+            background: #f5f5f5;
+            border-right: 1px solid #d3d3d3;
+        }
+
+        &:nth-child(even):not(:first-of-type).completed>* {
+            background-color: #e6f7e6;
+        }
+
+        &:nth-child(odd):not(:first-of-type).completed>* {
+            background-color: #d4f4d4;
+        }
+    }
+}
+
+.boy {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: white;
+    border-right: 1px solid #d3d3d3;
+
+    p {
+        padding: 0 !important;
+    }
+}
+
+.tags {
+    display: flex;
+    gap: 5px;
+    padding: 0 !important;
+
+    span {
+        padding: 2px 5px;
+        border-radius: 20px;
+        font-size: 12px;
+        color: white;
+
+        $colors: (
+            1: orange,
+            2: green,
+            3: blue,
+            4: purple,
+            5: purple
+        );
+
+    @each $level, $color in $colors {
+        &[data-sec="Sec #{$level}"] {
+            background: $color;
+        }
+    }
+}
+}
+
+.mastery {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px;
+    user-select: none;
+    padding: 0 !important;
+
+    input {
+        cursor: pointer;
+        accent-color: lightgreen;
+
+        &:checked+label {
+            color: green;
+        }
+    }
+
+    label {
+        cursor: pointer;
+    }
+
+    * {
+        padding: 0 !important;
+    }
+}
+
+.fixed_requirement {
+    cursor: pointer;
+    accent-color: lightgreen;
+}
+
+.points {
+    font-size: 12px !important;
+    color: gray;
+    padding: 0 !important;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

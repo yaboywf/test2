@@ -1,0 +1,24 @@
+.notFound {
+    padding: 4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    h1 {
+        font-size: 36px;
+    }
+
+    a {
+        color: #fff;
+        cursor: pointer;
+        background: #26284b;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 15px;
+        font-size: 13px;
+        text-decoration: none;
+    }
+}

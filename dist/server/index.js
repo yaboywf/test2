@@ -1,25 +1,9 @@
 import require$$0, { AsyncLocalStorage as AsyncLocalStorage$1 } from "node:async_hooks";
 import __vite_rsc_assets_manifest__ from "./__vite_rsc_assets_manifest.js";
-import { transformProps, transformSourceProps } from "@unpic/core";
-function _mergeNamespaces(n, m) {
-  for (var i = 0; i < m.length; i++) {
-    const e = m[i];
-    if (typeof e !== "string" && !Array.isArray(e)) {
-      for (const k in e) {
-        if (k !== "default" && !(k in n)) {
-          const d = Object.getOwnPropertyDescriptor(e, k);
-          if (d) {
-            Object.defineProperty(n, k, d.get ? d : {
-              enumerable: true,
-              get: () => e[k]
-            });
-          }
-        }
-      }
-    }
-  }
-  return Object.freeze(Object.defineProperty(n, Symbol.toStringTag, { value: "Module" }));
-}
+import { neon, Pool } from "@neondatabase/serverless";
+import { SignJWT, jwtVerify } from "jose";
+import SparkMD5 from "spark-md5";
+import { z } from "zod";
 function tinyassert(value, message) {
   if (value) return;
   if (message instanceof Error) throw message;
@@ -1039,7 +1023,7 @@ var hasRequiredReactDom_reactServer_production;
 function requireReactDom_reactServer_production() {
   if (hasRequiredReactDom_reactServer_production) return reactDom_reactServer_production;
   hasRequiredReactDom_reactServer_production = 1;
-  var React2 = requireReact_reactServer();
+  var React = requireReact_reactServer();
   function noop() {
   }
   var Internals = {
@@ -1061,7 +1045,7 @@ function requireReactDom_reactServer_production() {
     p: 0,
     findDOMNode: null
   };
-  if (!React2.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE)
+  if (!React.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE)
     throw Error(
       'The "react" package in this environment is not configured correctly. The "react-server" condition must be enabled in any environment that runs React Server Components.'
     );
@@ -1161,7 +1145,7 @@ function requireReactDom_reactServer_development() {
     function getValueDescriptorExpectingEnumForWarning(thing) {
       return null === thing ? "`null`" : void 0 === thing ? "`undefined`" : "" === thing ? "an empty string" : "string" === typeof thing ? JSON.stringify(thing) : "number" === typeof thing ? "`" + thing + "`" : 'something with type "' + typeof thing + '"';
     }
-    var React2 = requireReact_reactServer(), Internals = {
+    var React = requireReact_reactServer(), Internals = {
       d: {
         f: noop,
         r: function() {
@@ -1180,7 +1164,7 @@ function requireReactDom_reactServer_development() {
       p: 0,
       findDOMNode: null
     };
-    if (!React2.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE)
+    if (!React.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE)
       throw Error(
         'The "react" package in this environment is not configured correctly. The "react-server" condition must be enabled in any environment that runs React Server Components.'
       );
@@ -1346,7 +1330,7 @@ function requireReactServerDomWebpackServer_edge_production() {
   hasRequiredReactServerDomWebpackServer_edge_production = 1;
   const __viteRscAsyncHooks = require$$0;
   globalThis.AsyncLocalStorage = __viteRscAsyncHooks.AsyncLocalStorage;
-  var ReactDOM = requireReactDom_reactServer(), React2 = requireReact_reactServer(), REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
+  var ReactDOM = requireReactDom_reactServer(), React = requireReact_reactServer(), REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
   var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
   function getIteratorFn(maybeIterable) {
     if (null === maybeIterable || "object" !== typeof maybeIterable) return null;
@@ -1890,7 +1874,7 @@ function requireReactServerDomWebpackServer_edge_production() {
       var request = resolveRequest();
       return request ? request.cacheController.signal : null;
     }
-  }, ReactSharedInternalsServer = React2.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+  }, ReactSharedInternalsServer = React.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
   if (!ReactSharedInternalsServer)
     throw Error(
       'The "react" package in this environment is not configured correctly. The "react-server" condition must be enabled in any environment that runs React Server Components.'
@@ -7780,7 +7764,7 @@ function requireReactServerDomWebpackServer_edge_development() {
       var reader = stream.getReader(), stringDecoder = new TextDecoder(), stringBuffer = "";
       reader.read().then(progress).catch(error);
     }
-    var ReactDOM = requireReactDom_reactServer(), React2 = requireReact_reactServer(), REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
+    var ReactDOM = requireReactDom_reactServer(), React = requireReact_reactServer(), REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
     var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, ASYNC_ITERATOR = Symbol.asyncIterator, LocalPromise = Promise, scheduleMicrotask = "function" === typeof queueMicrotask ? queueMicrotask : function(callback) {
       LocalPromise.resolve(null).then(callback).catch(handleErrorInNextTick);
     }, currentView = null, writtenBytes = 0, textEncoder = new TextEncoder(), CLIENT_REFERENCE_TAG$1 = /* @__PURE__ */ Symbol.for("react.client.reference"), SERVER_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.server.reference"), FunctionBind = Function.prototype.bind, ArraySlice = Array.prototype.slice, serverReferenceToString = {
@@ -8025,7 +8009,7 @@ function requireReactServerDomWebpackServer_edge_development() {
       }
     };
     DefaultAsyncDispatcher.getOwner = resolveOwner;
-    var ReactSharedInternalsServer = React2.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var ReactSharedInternalsServer = React.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     if (!ReactSharedInternalsServer)
       throw Error(
         'The "react" package in this environment is not configured correctly. The "react-server" condition must be enabled in any environment that runs React Server Components.'
@@ -13425,10 +13409,10 @@ function requireReactServerDomWebpackClient_edge_development() {
       var streamState = createStreamState(response$jscomp$0, debugValue), reader = stream.getReader();
       reader.read().then(progress).catch(error);
     }
-    var ReactDOM = requireReactDom_reactServer(), React2 = requireReact_reactServer(), decoderOptions = { stream: true }, bind$1 = Function.prototype.bind, hasOwnProperty = Object.prototype.hasOwnProperty, chunkCache = /* @__PURE__ */ new Map(), ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, ASYNC_ITERATOR = Symbol.asyncIterator, isArrayImpl = Array.isArray, getPrototypeOf = Object.getPrototypeOf, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), ObjectPrototype = Object.prototype, knownServerReferences = /* @__PURE__ */ new WeakMap(), boundCache = /* @__PURE__ */ new WeakMap(), fakeServerFunctionIdx = 0, FunctionBind = Function.prototype.bind, ArraySlice = Array.prototype.slice, v8FrameRegExp = /^ {3} at (?:(.+) \((.+):(\d+):(\d+)\)|(?:async )?(.+):(\d+):(\d+))$/, jscSpiderMonkeyFrameRegExp = /(?:(.*)@)?(.*):(\d+):(\d+)/, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), supportsUserTiming = "undefined" !== typeof console && "function" === typeof console.timeStamp && "undefined" !== typeof performance && "function" === typeof performance.measure, trackNames = "Primary Parallel Parallel​ Parallel​​ Parallel​​​ Parallel​​​​ Parallel​​​​​ Parallel​​​​​​ Parallel​​​​​​​ Parallel​​​​​​​​".split(
+    var ReactDOM = requireReactDom_reactServer(), React = requireReact_reactServer(), decoderOptions = { stream: true }, bind$1 = Function.prototype.bind, hasOwnProperty = Object.prototype.hasOwnProperty, chunkCache = /* @__PURE__ */ new Map(), ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, ASYNC_ITERATOR = Symbol.asyncIterator, isArrayImpl = Array.isArray, getPrototypeOf = Object.getPrototypeOf, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), ObjectPrototype = Object.prototype, knownServerReferences = /* @__PURE__ */ new WeakMap(), boundCache = /* @__PURE__ */ new WeakMap(), fakeServerFunctionIdx = 0, FunctionBind = Function.prototype.bind, ArraySlice = Array.prototype.slice, v8FrameRegExp = /^ {3} at (?:(.+) \((.+):(\d+):(\d+)\)|(?:async )?(.+):(\d+):(\d+))$/, jscSpiderMonkeyFrameRegExp = /(?:(.*)@)?(.*):(\d+):(\d+)/, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), supportsUserTiming = "undefined" !== typeof console && "function" === typeof console.timeStamp && "undefined" !== typeof performance && "function" === typeof performance.measure, trackNames = "Primary Parallel Parallel​ Parallel​​ Parallel​​​ Parallel​​​​ Parallel​​​​​ Parallel​​​​​​ Parallel​​​​​​​ Parallel​​​​​​​​".split(
       " "
     ), prefix, suffix;
-    var ReactSharedInteralsServer = React2.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE || ReactSharedInteralsServer;
+    var ReactSharedInteralsServer = React.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactSharedInternals = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE || ReactSharedInteralsServer;
     ReactPromise.prototype = Object.create(Promise.prototype);
     ReactPromise.prototype.then = function(resolve, reject) {
       var _this = this;
@@ -13670,10 +13654,6 @@ function renderToReadableStream(data, options, extraOptions) {
 }
 var react_reactServerExports = requireReact_reactServer();
 const __vite_rsc_react__ = /* @__PURE__ */ getDefaultExportFromCjs(react_reactServerExports);
-const React = /* @__PURE__ */ _mergeNamespaces({
-  __proto__: null,
-  default: __vite_rsc_react__
-}, [react_reactServerExports]);
 let _serverContext = null;
 let _getServerContext = () => _serverContext;
 let _setServerContext = (ctx) => {
@@ -13722,6 +13702,11 @@ var RedirectType;
   RedirectType2["push"] = "push";
   RedirectType2["replace"] = "replace";
 })(RedirectType || (RedirectType = {}));
+function redirect(url, type) {
+  const error = new Error(`NEXT_REDIRECT:${url}`);
+  error.digest = `NEXT_REDIRECT;${"replace"};${encodeURIComponent(url)}`;
+  throw error;
+}
 if (!isServer) {
   window.addEventListener("popstate", (event) => {
     notifyListeners();
@@ -13810,6 +13795,22 @@ function headersContextFromRequest(request) {
     cookies: cookies2
   };
 }
+async function headers() {
+  const state = _getState$2();
+  if (!state.headersContext) {
+    throw new Error("headers() can only be called from a Server Component, Route Handler, or Server Action. Make sure you're not calling it from a Client Component.");
+  }
+  markDynamicUsage();
+  return state.headersContext.headers;
+}
+async function cookies() {
+  const state = _getState$2();
+  if (!state.headersContext) {
+    throw new Error("cookies() can only be called from a Server Component, Route Handler, or Server Action.");
+  }
+  markDynamicUsage();
+  return new RequestCookies(state.headersContext.cookies);
+}
 function getAndClearPendingCookies() {
   const state = _getState$2();
   const cookies2 = state.pendingSetCookies;
@@ -13821,6 +13822,281 @@ function getDraftModeCookieHeader() {
   const header = state.draftModeCookieHeader;
   state.draftModeCookieHeader = null;
   return header;
+}
+const VALID_COOKIE_NAME_RE$1 = /^[\x21\x23-\x27\x2A\x2B\x2D\x2E\x30-\x39\x41-\x5A\x5E-\x7A\x7C\x7E]+$/;
+function validateCookieName$1(name) {
+  if (!name || !VALID_COOKIE_NAME_RE$1.test(name)) {
+    throw new Error(`Invalid cookie name: ${JSON.stringify(name)}`);
+  }
+}
+function validateCookieAttributeValue$1(value, attributeName) {
+  for (let i = 0; i < value.length; i++) {
+    const code = value.charCodeAt(i);
+    if (code <= 31 || code === 127 || value[i] === ";") {
+      throw new Error(`Invalid cookie ${attributeName} value: ${JSON.stringify(value)}`);
+    }
+  }
+}
+class RequestCookies {
+  _cookies;
+  constructor(cookies2) {
+    this._cookies = cookies2;
+  }
+  get(name) {
+    const value = this._cookies.get(name);
+    if (value === void 0)
+      return void 0;
+    return { name, value };
+  }
+  getAll() {
+    const result = [];
+    for (const [name, value] of this._cookies) {
+      result.push({ name, value });
+    }
+    return result;
+  }
+  has(name) {
+    return this._cookies.has(name);
+  }
+  /**
+   * Set a cookie. In Route Handlers and Server Actions, this produces
+   * a Set-Cookie header on the response.
+   */
+  set(nameOrOptions, value, options) {
+    let cookieName;
+    let cookieValue;
+    let opts;
+    if (typeof nameOrOptions === "string") {
+      cookieName = nameOrOptions;
+      cookieValue = value ?? "";
+      opts = options;
+    } else {
+      cookieName = nameOrOptions.name;
+      cookieValue = nameOrOptions.value;
+      opts = nameOrOptions;
+    }
+    validateCookieName$1(cookieName);
+    this._cookies.set(cookieName, cookieValue);
+    const parts = [`${cookieName}=${encodeURIComponent(cookieValue)}`];
+    if (opts?.path) {
+      validateCookieAttributeValue$1(opts.path, "Path");
+      parts.push(`Path=${opts.path}`);
+    }
+    if (opts?.domain) {
+      validateCookieAttributeValue$1(opts.domain, "Domain");
+      parts.push(`Domain=${opts.domain}`);
+    }
+    if (opts?.maxAge !== void 0)
+      parts.push(`Max-Age=${opts.maxAge}`);
+    if (opts?.expires)
+      parts.push(`Expires=${opts.expires.toUTCString()}`);
+    if (opts?.httpOnly)
+      parts.push("HttpOnly");
+    if (opts?.secure)
+      parts.push("Secure");
+    if (opts?.sameSite)
+      parts.push(`SameSite=${opts.sameSite}`);
+    _getState$2().pendingSetCookies.push(parts.join("; "));
+    return this;
+  }
+  /**
+   * Delete a cookie by setting it with Max-Age=0.
+   */
+  delete(name) {
+    validateCookieName$1(name);
+    this._cookies.delete(name);
+    _getState$2().pendingSetCookies.push(`${name}=; Path=/; Max-Age=0`);
+    return this;
+  }
+  get size() {
+    return this._cookies.size;
+  }
+  [Symbol.iterator]() {
+    const entries = this._cookies.entries();
+    const iter = {
+      [Symbol.iterator]() {
+        return iter;
+      },
+      next() {
+        const { value, done } = entries.next();
+        if (done)
+          return { value: void 0, done: true };
+        const [name, val] = value;
+        return { value: [name, { name, value: val }], done: false };
+      }
+    };
+    return iter;
+  }
+  toString() {
+    const parts = [];
+    for (const [name, value] of this._cookies) {
+      parts.push(`${name}=${value}`);
+    }
+    return parts.join("; ");
+  }
+}
+class NextResponse extends Response {
+  _cookies;
+  constructor(body, init2) {
+    super(body, init2);
+    this._cookies = new ResponseCookies(this.headers);
+  }
+  get cookies() {
+    return this._cookies;
+  }
+  /**
+   * Create a JSON response.
+   */
+  static json(body, init2) {
+    const headers2 = new Headers(init2?.headers);
+    if (!headers2.has("content-type")) {
+      headers2.set("content-type", "application/json");
+    }
+    return new NextResponse(JSON.stringify(body), {
+      ...init2,
+      headers: headers2
+    });
+  }
+  /**
+   * Create a redirect response.
+   */
+  static redirect(url, init2) {
+    const status = typeof init2 === "number" ? init2 : init2?.status ?? 307;
+    const destination = typeof url === "string" ? url : url.toString();
+    const headers2 = new Headers(typeof init2 === "object" ? init2?.headers : void 0);
+    headers2.set("Location", destination);
+    return new NextResponse(null, { status, headers: headers2 });
+  }
+  /**
+   * Create a rewrite response (middleware pattern).
+   * Sets the x-middleware-rewrite header.
+   */
+  static rewrite(destination, init2) {
+    const url = typeof destination === "string" ? destination : destination.toString();
+    const headers2 = new Headers(init2?.headers);
+    headers2.set("x-middleware-rewrite", url);
+    return new NextResponse(null, { ...init2, headers: headers2 });
+  }
+  /**
+   * Continue to the next handler (middleware pattern).
+   * Sets the x-middleware-next header.
+   */
+  static next(init2) {
+    const headers2 = new Headers(init2?.headers);
+    headers2.set("x-middleware-next", "1");
+    if (init2?.request?.headers) {
+      for (const [key, value] of init2.request.headers.entries()) {
+        headers2.set(`x-middleware-request-${key}`, value);
+      }
+    }
+    return new NextResponse(null, { ...init2, headers: headers2 });
+  }
+}
+const VALID_COOKIE_NAME_RE = /^[\x21\x23-\x27\x2A\x2B\x2D\x2E\x30-\x39\x41-\x5A\x5E-\x7A\x7C\x7E]+$/;
+function validateCookieName(name) {
+  if (!name || !VALID_COOKIE_NAME_RE.test(name)) {
+    throw new Error(`Invalid cookie name: ${JSON.stringify(name)}`);
+  }
+}
+function validateCookieAttributeValue(value, attributeName) {
+  for (let i = 0; i < value.length; i++) {
+    const code = value.charCodeAt(i);
+    if (code <= 31 || code === 127 || value[i] === ";") {
+      throw new Error(`Invalid cookie ${attributeName} value: ${JSON.stringify(value)}`);
+    }
+  }
+}
+class ResponseCookies {
+  _headers;
+  constructor(headers2) {
+    this._headers = headers2;
+  }
+  set(name, value, options) {
+    validateCookieName(name);
+    const parts = [`${name}=${encodeURIComponent(value)}`];
+    if (options?.path) {
+      validateCookieAttributeValue(options.path, "Path");
+      parts.push(`Path=${options.path}`);
+    }
+    if (options?.domain) {
+      validateCookieAttributeValue(options.domain, "Domain");
+      parts.push(`Domain=${options.domain}`);
+    }
+    if (options?.maxAge !== void 0)
+      parts.push(`Max-Age=${options.maxAge}`);
+    if (options?.expires)
+      parts.push(`Expires=${options.expires.toUTCString()}`);
+    if (options?.httpOnly)
+      parts.push("HttpOnly");
+    if (options?.secure)
+      parts.push("Secure");
+    if (options?.sameSite)
+      parts.push(`SameSite=${options.sameSite}`);
+    this._headers.append("Set-Cookie", parts.join("; "));
+    return this;
+  }
+  get(name) {
+    for (const header of this._headers.getSetCookie()) {
+      const eq = header.indexOf("=");
+      if (eq === -1)
+        continue;
+      const cookieName = header.slice(0, eq);
+      if (cookieName === name) {
+        const semi = header.indexOf(";", eq);
+        const raw = header.slice(eq + 1, semi === -1 ? void 0 : semi);
+        let value;
+        try {
+          value = decodeURIComponent(raw);
+        } catch {
+          value = raw;
+        }
+        return { name, value };
+      }
+    }
+    return void 0;
+  }
+  getAll() {
+    const entries = [];
+    for (const header of this._headers.getSetCookie()) {
+      const eq = header.indexOf("=");
+      if (eq === -1)
+        continue;
+      const cookieName = header.slice(0, eq);
+      const semi = header.indexOf(";", eq);
+      const raw = header.slice(eq + 1, semi === -1 ? void 0 : semi);
+      let value;
+      try {
+        value = decodeURIComponent(raw);
+      } catch {
+        value = raw;
+      }
+      entries.push({ name: cookieName, value });
+    }
+    return entries;
+  }
+  delete(name) {
+    this.set(name, "", { maxAge: 0, path: "/" });
+    return this;
+  }
+  [Symbol.iterator]() {
+    const entries = [];
+    for (const header of this._headers.getSetCookie()) {
+      const eq = header.indexOf("=");
+      if (eq === -1)
+        continue;
+      const cookieName = header.slice(0, eq);
+      const semi = header.indexOf(";", eq);
+      const raw = header.slice(eq + 1, semi === -1 ? void 0 : semi);
+      let value;
+      try {
+        value = decodeURIComponent(raw);
+      } catch {
+        value = raw;
+      }
+      entries.push([cookieName, { name: cookieName, value }]);
+    }
+    return entries[Symbol.iterator]();
+  }
 }
 const ErrorBoundary = /* @__PURE__ */ registerClientReference(() => {
   throw new Error("Unexpectedly client reference export 'ErrorBoundary' is called on server");
@@ -13837,8 +14113,8 @@ var hasRequiredReactJsxRuntime_reactServer_production;
 function requireReactJsxRuntime_reactServer_production() {
   if (hasRequiredReactJsxRuntime_reactServer_production) return reactJsxRuntime_reactServer_production;
   hasRequiredReactJsxRuntime_reactServer_production = 1;
-  var React2 = requireReact_reactServer(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
-  if (!React2.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE)
+  var React = requireReact_reactServer(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
+  if (!React.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE)
     throw Error(
       'The "react" package in this environment is not configured correctly. The "react-server" condition must be enabled in any environment that runs React Server Components.'
     );
@@ -14081,7 +14357,7 @@ function requireReactJsxRuntime_reactServer_development() {
     function isValidElement(object) {
       return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
     }
-    var React2 = requireReact_reactServer(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternalsServer = React2.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var React = requireReact_reactServer(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternalsServer = React.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     if (!ReactSharedInternalsServer)
       throw Error(
         'The "react" package in this environment is not configured correctly. The "react-server" condition must be enabled in any environment that runs React Server Components.'
@@ -14089,15 +14365,15 @@ function requireReactJsxRuntime_reactServer_development() {
     var hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
       return null;
     };
-    React2 = {
+    React = {
       react_stack_bottom_frame: function(callStackForError) {
         return callStackForError();
       }
     };
     var specialPropKeyWarningShown;
     var didWarnAboutElementRef = {};
-    var unknownOwnerDebugStack = React2.react_stack_bottom_frame.bind(
-      React2,
+    var unknownOwnerDebugStack = React.react_stack_bottom_frame.bind(
+      React,
       UnknownOwner
     )();
     var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -14589,8 +14865,8 @@ function robotsToText(config) {
   }
   if (config.sitemap) {
     const sitemaps = Array.isArray(config.sitemap) ? config.sitemap : [config.sitemap];
-    for (const sitemap of sitemaps) {
-      lines.push(`Sitemap: ${sitemap}`);
+    for (const sitemap2 of sitemaps) {
+      lines.push(`Sitemap: ${sitemap2}`);
     }
   }
   if (config.host) {
@@ -14707,8 +14983,8 @@ function collectHeaders(input, init2) {
     });
   }
   if (init2?.headers) {
-    const headers = init2.headers instanceof Headers ? init2.headers : new Headers(init2.headers);
-    headers.forEach((v, k) => {
+    const headers2 = init2.headers instanceof Headers ? init2.headers : new Headers(init2.headers);
+    headers2.forEach((v, k) => {
       merged[k] = v;
     });
   }
@@ -14719,8 +14995,8 @@ function collectHeaders(input, init2) {
 }
 const AUTH_HEADERS = ["authorization", "cookie", "x-api-key"];
 function hasAuthHeaders(input, init2) {
-  const headers = collectHeaders(input, init2);
-  return AUTH_HEADERS.some((name) => name in headers);
+  const headers2 = collectHeaders(input, init2);
+  return AUTH_HEADERS.some((name) => name in headers2);
 }
 async function serializeBody(init2) {
   if (!init2?.body)
@@ -14821,13 +15097,13 @@ async function buildFetchCacheKey(input, init2) {
   }
   if (init2?.method)
     method = init2.method;
-  const headers = collectHeaders(input, init2);
+  const headers2 = collectHeaders(input, init2);
   const bodyChunks = await serializeBody(init2);
   const cacheString = JSON.stringify([
     CACHE_KEY_PREFIX,
     url,
     method,
-    headers,
+    headers2,
     init2?.mode,
     init2?.redirect,
     init2?.credentials,
@@ -14954,14 +15230,14 @@ function createPatchedFetch() {
     if (response.ok) {
       const cloned = response.clone();
       const body = await cloned.text();
-      const headers = {};
+      const headers2 = {};
       cloned.headers.forEach((v, k) => {
-        headers[k] = v;
+        headers2[k] = v;
       });
       const cacheValue = {
         kind: "FETCH",
         data: {
-          headers,
+          headers: headers2,
           body,
           url: typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url,
           status: cloned.status
@@ -15259,8 +15535,6 @@ const googleFonts = new Proxy({}, {
     return createFontLoader(family);
   }
 });
-const Geist = createFontLoader("Geist");
-const Geist_Mono = createFontLoader("Geist Mono");
 const ssrFontStyles = [];
 const ssrFontPreloads = [];
 function getSSRFontStyles() {
@@ -15269,10 +15543,99 @@ function getSSRFontStyles() {
 function getSSRFontPreloads() {
   return [...ssrFontPreloads];
 }
+async function GET$2(req) {
+  const sql2 = neon(process.env.DATABASE_URL);
+  const secret2 = new TextEncoder().encode(process.env.JWT_SECRET);
+  try {
+    const { searchParams } = new URL(req.url);
+    const code = searchParams.get("code");
+    const next = searchParams.get("state") ?? "/home";
+    if (!code) throw new Error("No code");
+    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        code,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        redirect_uri: `${process.env.BASE_URL}/api/auth/login/callback`,
+        grant_type: "authorization_code"
+      })
+    });
+    const tokens = await tokenRes.json();
+    const idToken = tokens.id_token;
+    if (!idToken) throw new Error("No ID token");
+    const payload = JSON.parse(atob(idToken.split(".")[1]));
+    const { email, picture } = payload;
+    if (!email) throw new Error("No email");
+    const result = await sql2`
+            SELECT *
+            FROM (
+                SELECT 'officer' AS source, to_jsonb(o) AS data
+                FROM officer o
+                WHERE email = ${email}
+                LIMIT 1
+            ) officers_result
+
+            UNION ALL
+
+            SELECT *
+            FROM (
+                SELECT 'primer' AS source, to_jsonb(p) AS data
+                FROM primer p
+                WHERE email = ${email}
+                LIMIT 1
+            ) primers_result
+
+            UNION ALL
+
+            SELECT *
+            FROM (
+                SELECT 'volunteer' AS source, to_jsonb(v) AS data
+                FROM volunteer v
+                WHERE email = ${email}
+                LIMIT 1
+            ) volunteers_result
+
+            UNION ALL
+
+            SELECT *
+            FROM (
+                SELECT 'boy' AS source, to_jsonb(b) AS data
+                FROM boy b
+                WHERE email = ${email}
+                LIMIT 1
+            ) boys_result
+
+            LIMIT 1;
+        `;
+    if (result.length === 0) throw new Error("No user found");
+    const row = result[0];
+    const token = await new SignJWT({ ...row.data, type: row.source, picture }).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setExpirationTime("7d").sign(secret2);
+    const cookieStore = await cookies();
+    cookieStore.set("session", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7
+    });
+    return Response.redirect(new URL(next, process.env.BASE_URL));
+  } catch (error) {
+    console.error(error);
+    return NextResponse.redirect(new URL(`/login?error=${encodeURIComponent(error.message)}`, process.env.BASE_URL));
+  }
+}
+const mod_0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  GET: GET$2
+}, Symbol.toStringTag, { value: "Module" }));
 const RemoveDuplicateServerCss$1 = void 0;
-const Resources$1 = /* @__PURE__ */ ((React2, deps, RemoveDuplicateServerCss2, precedence) => {
+const Resources$1 = /* @__PURE__ */ ((React, deps, RemoveDuplicateServerCss2, precedence) => {
   return function Resources2() {
-    return React2.createElement(React2.Fragment, null, [...deps.css.map((href) => React2.createElement("link", {
+    return React.createElement(React.Fragment, null, [...deps.css.map((href) => React.createElement("link", {
       key: "css:" + href,
       rel: "stylesheet",
       ...{ precedence },
@@ -15282,294 +15645,117 @@ const Resources$1 = /* @__PURE__ */ ((React2, deps, RemoveDuplicateServerCss2, p
   };
 })(
   __vite_rsc_react__,
-  __vite_rsc_assets_manifest__.serverResources["src/app/page.tsx"],
+  __vite_rsc_assets_manifest__.serverResources["src/app/layout.tsx"],
   RemoveDuplicateServerCss$1,
   "vite-rsc/importer-resources"
 );
-var nestedKeys = /* @__PURE__ */ new Set(["style"]);
-var isNewReact = "use" in React;
-var fixedMap = {
-  srcset: "srcSet",
-  fetchpriority: isNewReact ? "fetchPriority" : "fetchpriority"
+const Script = /* @__PURE__ */ registerClientReference(() => {
+  throw new Error("Unexpectedly client reference export 'default' is called on server");
+}, "60f387d9e0f4", "default");
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "BB 21st Portal",
+  url: "https://bb21coy-v3.dylanyeowf.workers.dev",
+  logo: "https://bb21coy-v3.dylanyeowf.workers.dev/favicon.ico",
+  sameAs: [
+    "https://github.com/bb21coy",
+    "https://github.com/The-Boys-Brigade-21st-Company/",
+    "https://www.instagram.com/bb21coy/",
+    "https://www.geylangmethodistsec.moe.edu.sg/cca/ugs/boys-brigade/"
+  ]
 };
-var camelize = (key) => {
-  if (key.startsWith("data-") || key.startsWith("aria-")) {
-    return key;
-  }
-  return fixedMap[key] || key.replace(/-./g, (suffix) => suffix[1].toUpperCase());
-};
-function camelizeProps(props) {
-  return Object.fromEntries(
-    Object.entries(props).map(([k, v]) => [
-      camelize(k),
-      nestedKeys.has(k) && v && typeof v !== "string" ? camelizeProps(v) : v
-    ])
-  );
-}
-var Image$1 = react_reactServerExports.forwardRef(
-  function Image2(props, ref) {
-    const camelizedProps = camelizeProps(
-      transformProps(props)
-    );
-    return /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("img", { ...camelizedProps, ref });
-  }
-);
-react_reactServerExports.forwardRef(
-  function Source2(props, ref) {
-    const camelizedProps = camelizeProps(
-      transformSourceProps(
-        props
-      )
-    );
-    return /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("source", { ...camelizedProps, ref });
-  }
-);
-function globToRegex(pattern, separator) {
-  let regexStr = "^";
-  const doubleStar = separator === "." ? ".+" : ".*";
-  const singleStar = separator === "." ? "[^.]+" : "[^/]+";
-  const parts = pattern.split("**");
-  for (let i = 0; i < parts.length; i++) {
-    if (i > 0) {
-      regexStr += doubleStar;
-    }
-    const subParts = parts[i].split("*");
-    for (let j = 0; j < subParts.length; j++) {
-      if (j > 0) {
-        regexStr += singleStar;
-      }
-      regexStr += subParts[j].replace(/[.+?^${}()|[\]\\]/g, "\\$&");
-    }
-  }
-  regexStr += "$";
-  return new RegExp(regexStr);
-}
-function matchRemotePattern(pattern, url) {
-  if (pattern.protocol !== void 0) {
-    if (pattern.protocol.replace(/:$/, "") !== url.protocol.replace(/:$/, "")) {
-      return false;
-    }
-  }
-  if (pattern.port !== void 0) {
-    if (pattern.port !== url.port) {
-      return false;
-    }
-  }
-  if (!globToRegex(pattern.hostname, ".").test(url.hostname)) {
-    return false;
-  }
-  if (pattern.search !== void 0) {
-    if (pattern.search !== url.search) {
-      return false;
-    }
-  }
-  const pathnamePattern = pattern.pathname ?? "**";
-  if (!globToRegex(pathnamePattern, "/").test(url.pathname)) {
-    return false;
-  }
-  return true;
-}
-function hasRemoteMatch(domains, remotePatterns, url) {
-  return domains.some((domain) => url.hostname === domain) || remotePatterns.some((p) => matchRemotePattern(p, url));
-}
-const __imageRemotePatterns = (() => {
-  try {
-    return JSON.parse("[]");
-  } catch {
-    return [];
-  }
-})();
-const __imageDomains = (() => {
-  try {
-    return JSON.parse("[]");
-  } catch {
-    return [];
-  }
-})();
-const __hasImageConfig = __imageRemotePatterns.length > 0 || __imageDomains.length > 0;
-const __isDev = process.env.NODE_ENV !== "production";
-const __imageDeviceSizes = (() => {
-  try {
-    return JSON.parse("[640,750,828,1080,1200,1920,2048,3840]");
-  } catch {
-    return [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
-  }
-})();
-function validateRemoteUrl(src) {
-  if (!__hasImageConfig) {
-    return { allowed: true };
-  }
-  let url;
-  try {
-    url = new URL(src, "http://n");
-  } catch {
-    return { allowed: false, reason: `Invalid URL: ${src}` };
-  }
-  if (hasRemoteMatch(__imageDomains, __imageRemotePatterns, url)) {
-    return { allowed: true };
-  }
-  return {
-    allowed: false,
-    reason: `Image URL "${src}" is not configured in images.remotePatterns or images.domains in next.config.js. See: https://nextjs.org/docs/messages/next-image-unconfigured-host`
-  };
-}
-function sanitizeBlurDataURL(url) {
-  if (!url.startsWith("data:image/"))
-    return void 0;
-  if (/[)(}{\\'"\n\r]/.test(url))
-    return void 0;
-  return url;
-}
-function isRemoteUrl(src) {
-  return src.startsWith("http://") || src.startsWith("https://") || src.startsWith("//");
-}
-const RESPONSIVE_WIDTHS = __imageDeviceSizes;
-function imageOptimizationUrl(src, width, quality = 75) {
-  return `/_vinext/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
-}
-function generateSrcSet(src, originalWidth, quality = 75) {
-  const widths = RESPONSIVE_WIDTHS.filter((w) => w <= originalWidth * 2);
-  if (widths.length === 0)
-    return `${imageOptimizationUrl(src, originalWidth, quality)} ${originalWidth}w`;
-  return widths.map((w) => `${imageOptimizationUrl(src, w, quality)} ${w}w`).join(", ");
-}
-const Image = react_reactServerExports.forwardRef(function Image22({ src: srcProp, alt, width, height, fill, priority, quality, placeholder, blurDataURL, loader, sizes, className, style, unoptimized: _unoptimized, overrideSrc: _overrideSrc, loading, ...rest }, ref) {
-  const src = typeof srcProp === "string" ? srcProp : srcProp.src;
-  const imgWidth = width ?? (typeof srcProp === "object" ? srcProp.width : void 0);
-  const imgHeight = height ?? (typeof srcProp === "object" ? srcProp.height : void 0);
-  const imgBlurDataURL = blurDataURL ?? (typeof srcProp === "object" ? srcProp.blurDataURL : void 0);
-  if (loader) {
-    const resolvedSrc = loader({ src, width: imgWidth ?? 0, quality: quality ?? 75 });
-    return jsxRuntime_reactServerExports.jsx("img", { ref, src: resolvedSrc, alt, width: fill ? void 0 : imgWidth, height: fill ? void 0 : imgHeight, loading: priority ? "eager" : loading ?? "lazy", decoding: "async", sizes, className, style: fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", ...style } : style, ...rest });
-  }
-  if (isRemoteUrl(src)) {
-    const validation = validateRemoteUrl(src);
-    if (!validation.allowed) {
-      if (__isDev) {
-        console.warn(`[next/image] ${validation.reason}`);
-      } else {
-        console.error(`[next/image] ${validation.reason}`);
-        return null;
-      }
-    }
-    const sanitizedBlur = imgBlurDataURL ? sanitizeBlurDataURL(imgBlurDataURL) : void 0;
-    const bg = placeholder === "blur" && sanitizedBlur ? `url(${sanitizedBlur})` : void 0;
-    if (fill) {
-      return jsxRuntime_reactServerExports.jsx(Image$1, { src, alt, layout: "fullWidth", priority, sizes, className, background: bg });
-    }
-    if (imgWidth && imgHeight) {
-      return jsxRuntime_reactServerExports.jsx(Image$1, { src, alt, width: imgWidth, height: imgHeight, layout: "constrained", priority, sizes, className, background: bg });
-    }
-  }
-  const imgQuality = quality ?? 75;
-  const skipOptimization = _unoptimized === true;
-  const srcSet = imgWidth && !fill && !skipOptimization ? generateSrcSet(src, imgWidth, imgQuality) : imgWidth && !fill ? RESPONSIVE_WIDTHS.filter((w) => w <= imgWidth * 2).map((w) => `${src} ${w}w`).join(", ") || `${src} ${imgWidth}w` : void 0;
-  const optimizedSrc = skipOptimization ? src : imgWidth ? imageOptimizationUrl(src, imgWidth, imgQuality) : imageOptimizationUrl(src, RESPONSIVE_WIDTHS[0], imgQuality);
-  const sanitizedLocalBlur = imgBlurDataURL ? sanitizeBlurDataURL(imgBlurDataURL) : void 0;
-  const blurStyle = placeholder === "blur" && sanitizedLocalBlur ? {
-    backgroundImage: `url(${sanitizedLocalBlur})`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center"
-  } : void 0;
-  return jsxRuntime_reactServerExports.jsx("img", { ref, src: optimizedSrc, alt, width: fill ? void 0 : imgWidth, height: fill ? void 0 : imgHeight, loading: priority ? "eager" : loading ?? "lazy", fetchPriority: priority ? "high" : void 0, decoding: "async", srcSet, sizes: sizes ?? (fill ? "100vw" : void 0), className, "data-nimg": fill ? "fill" : "1", style: fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", ...blurStyle, ...style } : { ...blurStyle, ...style }, ...rest });
-});
-const page = "_page_d3szv_1";
-const main = "_main_d3szv_20";
-const intro = "_intro_d3szv_32";
-const ctas = "_ctas_d3szv_63";
-const primary = "_primary_d3szv_86";
-const secondary = "_secondary_d3szv_92";
-const logo = "_logo_d3szv_126";
-const styles = {
-  page,
-  main,
-  intro,
-  ctas,
-  primary,
-  secondary,
-  logo
-};
-function Home() {
-  return /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("div", { className: styles.page, children: /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs("main", { className: styles.main, children: [
-    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(
-      Image,
+let metadata = {
+  title: "BB 21st Portal",
+  description: "BB 21st Portal is a platform for Officers, Primers, and Boys of the Boys’ Brigade 21st Singapore Company. It streamlines tasks like parade notices, attendance, awards tracking, uniform inspections, and generating 32A results, reducing paperwork and improving efficiency.",
+  applicationName: "BB 21st Portal",
+  metadataBase: new URL("https://bb21coy-v3.dylanyeowf.workers.dev"),
+  alternates: {
+    canonical: "/"
+  },
+  openGraph: {
+    title: "BB 21st Portal",
+    description: "Streamline BB 21st admin with tools for parade notices, attendance, awards, inspections, and 32A results. Built for Officers, Primers, and Boys.",
+    url: "https://bb21coy-v3.dylanyeowf.workers.dev",
+    siteName: "BB 21st Portal",
+    locale: "en_SG",
+    type: "website",
+    images: [
       {
-        className: styles.logo,
-        src: "/next.svg",
-        alt: "Next.js logo",
-        width: 100,
-        height: 20,
-        priority: true
+        url: "/bb-banner-2.webp",
+        width: 1200,
+        height: 630,
+        alt: "BB 21st Portal preview"
       }
-    ),
-    /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs("div", { className: styles.intro, children: [
-      /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("h1", { children: "To get started, edit the page.tsx file." }),
-      /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs("p", { children: [
-        "Looking for a starting point or more instructions? Head over to",
-        " ",
-        /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(
-          "a",
-          {
-            href: "https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app",
-            target: "_blank",
-            rel: "noopener noreferrer",
-            children: "Templates"
-          }
-        ),
-        " ",
-        "or the",
-        " ",
-        /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(
-          "a",
-          {
-            href: "https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app",
-            target: "_blank",
-            rel: "noopener noreferrer",
-            children: "Learning"
-          }
-        ),
-        " ",
-        "center."
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs("div", { className: styles.ctas, children: [
-      /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs(
-        "a",
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BB 21st Portal",
+    description: "Admin portal for BB 21st: manage parades, attendance, awards, inspections, and 32A results in one place.",
+    images: ["/bb-banner-2.webp"]
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
+    ]
+  },
+  verification: {
+    google: "aZvLu8S3x7OBSpS1rCeypfVjZLyTr-MbxXLKM665XIs"
+  },
+  authors: [
+    { name: "Bryan Lee" },
+    { name: "Geng Yue" },
+    { name: "Dylan Yeo" }
+  ],
+  keywords: [
+    "BB 21st Singapore",
+    "Boys Brigade 21st Company",
+    "BB21coy",
+    "Boys Brigade Geylang Methodist",
+    "BB 21st Admin System",
+    "Parade management system",
+    "CCA attendance tracking",
+    "Award tracking system",
+    "Uniform inspection system",
+    "32A report generation",
+    "BB admin system",
+    "Boys Brigade admin system",
+    "BB 21st admin system",
+    "Boys Brigade 21st admin system"
+  ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "BB 21st Portal"
+  }
+};
+function RootLayout({ children }) {
+  return /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs("html", { lang: "en", suppressHydrationWarning: true, children: [
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs("head", { children: [
+      /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(
+        "script",
         {
-          className: styles.primary,
-          href: "https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app",
-          target: "_blank",
-          rel: "noopener noreferrer",
-          children: [
-            /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(
-              Image,
-              {
-                className: styles.logo,
-                src: "/vercel.svg",
-                alt: "Vercel logomark",
-                width: 16,
-                height: 16
-              }
-            ),
-            "Deploy Now"
-          ]
+          type: "application/ld+json",
+          dangerouslySetInnerHTML: {
+            __html: JSON.stringify(structuredData)
+          }
         }
       ),
       /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(
-        "a",
+        Script,
         {
-          className: styles.secondary,
-          href: "https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app",
-          target: "_blank",
-          rel: "noopener noreferrer",
-          children: "Documentation"
+          id: "google-translate",
+          strategy: "afterInteractive",
+          src: "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         }
       )
-    ] })
-  ] }) });
+    ] }),
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("body", { className: `antialiased`, children })
+  ] });
 }
-const $$wrap_Home = /* @__PURE__ */ __vite_rsc_wrap_css__$1(Home, "default");
+const $$wrap_RootLayout = /* @__PURE__ */ __vite_rsc_wrap_css__$1(RootLayout, "default");
 function __vite_rsc_wrap_css__$1(value, name) {
   if (typeof value !== "function") return value;
   function __wrapper(props) {
@@ -15583,14 +15769,15 @@ function __vite_rsc_wrap_css__$1(value, name) {
   Object.defineProperty(__wrapper, "name", { value: name });
   return __wrapper;
 }
-const mod_0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const mod_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: $$wrap_Home
+  default: $$wrap_RootLayout,
+  metadata
 }, Symbol.toStringTag, { value: "Module" }));
 const RemoveDuplicateServerCss = void 0;
-const Resources = /* @__PURE__ */ ((React2, deps, RemoveDuplicateServerCss2, precedence) => {
+const Resources = /* @__PURE__ */ ((React, deps, RemoveDuplicateServerCss2, precedence) => {
   return function Resources2() {
-    return React2.createElement(React2.Fragment, null, [...deps.css.map((href) => React2.createElement("link", {
+    return React.createElement(React.Fragment, null, [...deps.css.map((href) => React.createElement("link", {
       key: "css:" + href,
       rel: "stylesheet",
       ...{ precedence },
@@ -15600,28 +15787,26 @@ const Resources = /* @__PURE__ */ ((React2, deps, RemoveDuplicateServerCss2, pre
   };
 })(
   __vite_rsc_react__,
-  __vite_rsc_assets_manifest__.serverResources["src/app/layout.tsx"],
+  __vite_rsc_assets_manifest__.serverResources["src/app/not-found.tsx"],
   RemoveDuplicateServerCss,
   "vite-rsc/importer-resources"
 );
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"]
-});
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"]
-});
-let metadata = {
-  title: "Create Next App",
-  description: "Generated by create next app"
+const notFound = "_notFound_10alx_1";
+const styles = {
+  notFound
 };
-function RootLayout({
-  children
-}) {
-  return /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("html", { lang: "en", children: /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("body", { className: `${geistSans.variable} ${geistMono.variable}`, children }) });
+const Link = /* @__PURE__ */ registerClientReference(() => {
+  throw new Error("Unexpectedly client reference export 'default' is called on server");
+}, "c2747888630f", "default");
+async function NotFound() {
+  return /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("main", { className: "layout", children: /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs("div", { className: styles.notFound, children: [
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("img", { src: "/not-found.webp", alt: "Not Found", width: 150, height: 150 }),
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("h1", { children: "Oh no!" }),
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx("p", { children: "This page does not exist or you do not have permission to view it." }),
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(Link, { href: "/home", children: "Go back to home" })
+  ] }) });
 }
-const $$wrap_RootLayout = /* @__PURE__ */ __vite_rsc_wrap_css__(RootLayout, "default");
+const $$wrap_NotFound = /* @__PURE__ */ __vite_rsc_wrap_css__(NotFound, "default");
 function __vite_rsc_wrap_css__(value, name) {
   if (typeof value !== "function") return value;
   function __wrapper(props) {
@@ -15635,10 +15820,596 @@ function __vite_rsc_wrap_css__(value, name) {
   Object.defineProperty(__wrapper, "name", { value: name });
   return __wrapper;
 }
-const mod_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const mod_2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: $$wrap_RootLayout,
-  metadata
+  default: $$wrap_NotFound
+}, Symbol.toStringTag, { value: "Module" }));
+async function GET$1(req) {
+  const { searchParams } = new URL(req.url);
+  const next = searchParams.get("next") || "/home";
+  const params = new URLSearchParams({
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    redirect_uri: `${process.env.BASE_URL}/api/auth/login/callback`,
+    response_type: "code",
+    scope: "openid email profile",
+    prompt: "select_account",
+    state: next
+  });
+  return NextResponse.redirect(
+    `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
+  );
+}
+const mod_3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  GET: GET$1
+}, Symbol.toStringTag, { value: "Module" }));
+const sql = neon(process.env.DATABASE_URL);
+async function withDB(session, fn) {
+  await sql`select set_config('app.type', ${session.type}, true)`;
+  return fn(sql);
+}
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+async function getServerSession() {
+  const token = (await cookies()).get("session")?.value;
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, secret);
+    return payload;
+  } catch (error) {
+    console.error("JWT Verification Error (getServerSession):", error);
+    return null;
+  }
+}
+async function POST$3(req) {
+  const userAgent = (await headers()).get("user-agent");
+  const cookieStore = await cookies();
+  const session = await getServerSession();
+  if (!session) return Response.json({ success: false }, { status: 401 });
+  const { deviceId } = await req.json();
+  await withDB(session, (db) => db`
+        DELETE FROM push_subscriptions
+        WHERE user_email = ${session.email}
+        AND device_id = ${deviceId}
+        AND user_agent = ${userAgent};
+    `);
+  cookieStore.set("session", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0
+  });
+  return Response.json({ ok: true });
+}
+const mod_4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  POST: POST$3
+}, Symbol.toStringTag, { value: "Module" }));
+async function sign(stringToSign, secret2) {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret2),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    encoder.encode(stringToSign)
+  );
+  return Array.from(new Uint8Array(signature)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+async function triggerPusher(channel, event, payload) {
+  const appId = process.env.PUSHER_APP_ID;
+  const key = process.env.PUSHER_KEY;
+  const secret2 = process.env.PUSHER_SECRET;
+  const cluster = process.env.PUSHER_CLUSTER;
+  const timestamp = Math.floor(Date.now() / 1e3);
+  const body = JSON.stringify({
+    name: event,
+    channel,
+    data: JSON.stringify(payload)
+  });
+  const bodyMd5 = SparkMD5.hash(body);
+  const query = `auth_key=${key}&auth_timestamp=${timestamp}&auth_version=1.0&body_md5=${bodyMd5}`;
+  const stringToSign = `POST
+/apps/${appId}/events
+${query}`;
+  const signature = await sign(stringToSign, secret2);
+  await fetch(
+    `https://api-${cluster}.pusher.com/apps/${appId}/events?${query}&auth_signature=${signature}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body
+    }
+  );
+}
+const UUID = z.string().uuid();
+const AttainmentSchema = z.object({
+  boy: z.string().email(),
+  badge_id: UUID,
+  value: z.string().nullable(),
+  checked: z.boolean()
+});
+const NotificationSchema = z.object({
+  token: z.string(),
+  title: z.string(),
+  body: z.string()
+});
+async function getAccessToken() {
+  const now = Math.floor(Date.now() / 1e3);
+  const header = {
+    alg: "RS256",
+    typ: "JWT"
+  };
+  const payload = {
+    iss: process.env.FIREBASE_CLIENT_EMAIL,
+    scope: "https://www.googleapis.com/auth/firebase.messaging",
+    aud: "https://oauth2.googleapis.com/token",
+    iat: now,
+    exp: now + 3600
+  };
+  function base64url(input) {
+    return btoa(input).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+  }
+  const encoder = new TextEncoder();
+  const unsignedJWT = base64url(JSON.stringify(header)) + "." + base64url(JSON.stringify(payload));
+  const keyData = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n");
+  const cryptoKey = await crypto.subtle.importKey(
+    "pkcs8",
+    str2ab(keyData),
+    {
+      name: "RSASSA-PKCS1-v1_5",
+      hash: "SHA-256"
+    },
+    false,
+    ["sign"]
+  );
+  const signature = await crypto.subtle.sign(
+    "RSASSA-PKCS1-v1_5",
+    cryptoKey,
+    encoder.encode(unsignedJWT)
+  );
+  const signedJWT = unsignedJWT + "." + base64urlBytes(new Uint8Array(signature));
+  const tokenRes = await fetch(
+    "https://oauth2.googleapis.com/token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        assertion: signedJWT
+      })
+    }
+  );
+  const tokenJson = await tokenRes.json();
+  return tokenJson.access_token;
+}
+function base64urlBytes(bytes) {
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+}
+function str2ab(pem) {
+  const binary = atob(
+    pem.replace("-----BEGIN PRIVATE KEY-----", "").replace("-----END PRIVATE KEY-----", "").replace(/\n/g, "")
+  );
+  const buffer = new ArrayBuffer(binary.length);
+  const view = new Uint8Array(buffer);
+  for (let i = 0; i < binary.length; i++) {
+    view[i] = binary.charCodeAt(i);
+  }
+  return buffer;
+}
+async function sendNotification(token, title, body) {
+  const validation = NotificationSchema.safeParse({ token, title, body });
+  if (!validation.success) return { success: false, message: validation.error.message };
+  const accessToken = await getAccessToken();
+  const res = await fetch(
+    `https://fcm.googleapis.com/v1/projects/bb21-portal/messages:send`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: {
+          token,
+          data: {
+            title,
+            body,
+            image: "https://bb21coy-v3.dylanyeowf.workers.dev/bb-banner-2.webp",
+            icon: "https://bb21coy-v3.dylanyeowf.workers.dev/bb-crest-192.png",
+            badge: "https://bb21coy-v3.dylanyeowf.workers.dev/bb-crest-72.png"
+          }
+        }
+      })
+    }
+  );
+  if (!res.ok) return console.error(await res.json());
+  return;
+}
+async function POST$2(req) {
+  try {
+    const session = await getServerSession();
+    if (!session || session.type === "boy" && !["admin", "csm", "ps"].some((r) => session.appointment?.map((a) => a.toLowerCase()).includes(r))) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const body = await req.json();
+    const validated = AttainmentSchema.safeParse(body);
+    if (!validated.success) return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    const { boy, badge_id, value, checked } = validated.data;
+    const isYear = value === "year1" || value === "year2" || value === "year3";
+    const isMastery = value !== null && !isYear && UUID.safeParse(value).success;
+    if (value !== null && !isYear && !isMastery) return NextResponse.json({ error: "Invalid value" }, { status: 400 });
+    const mastery_id = isMastery ? value : null;
+    const misc = isYear ? value : null;
+    const badgeText = await withDB(session, async (db) => {
+      if (mastery_id) {
+        const [m] = await db`
+                    SELECT b.badge_name, m.mastery_name
+                    FROM badge_masteries m
+                    JOIN badges b ON m.badge_id = b.id
+                    WHERE m.id = ${mastery_id}::uuid
+                `.catch(() => []);
+        if (m) return `${m.badge_name} (${m.mastery_name})`;
+      }
+      const [b] = await db`
+                SELECT badge_name
+                FROM badges
+                WHERE id = ${badge_id}::uuid
+            `.catch(() => []);
+      return b?.badge_name ?? "Unknown badge";
+    });
+    await withDB(session, async (db) => {
+      if (checked) {
+        await db`
+                    INSERT INTO attainments (boy, badge_id, mastery_id, misc)
+                    VALUES (
+                        ${boy},
+                        ${badge_id}::uuid,
+                        ${mastery_id ? db`${mastery_id}::uuid` : db`NULL`},
+                        ${misc}
+                    )
+                    ON CONFLICT DO NOTHING
+                `;
+        await db`
+                    INSERT INTO logs (user_email, action)
+                    VALUES (${session.email}, ${`Awarded ${badgeText}${misc ? ` (${misc})` : ""} to ${boy}`})
+                `;
+        const notificationToken = await db`
+                    SELECT token
+                    FROM push_subscriptions
+                    WHERE user_email = ${boy};
+                `;
+        if (notificationToken.length === 0) return;
+        await Promise.all(
+          notificationToken.map(
+            (t) => sendNotification(
+              t.token,
+              "Your award has been updated!",
+              `You have been awarded ${badgeText}${misc ? ` (${misc})` : ""}`
+            )
+          )
+        );
+      } else {
+        await db`
+                    DELETE FROM attainments
+                    WHERE boy = ${boy}
+                    AND badge_id = ${badge_id}::uuid
+                    AND mastery_id IS NOT DISTINCT FROM ${mastery_id ? db`${mastery_id}::uuid` : db`NULL`}
+                    AND misc IS NOT DISTINCT FROM ${misc}::text
+                `;
+        await db`
+                    INSERT INTO logs (user_email, action)
+                    VALUES (${session.email}, ${`Revoked ${badgeText}${misc ? ` (${misc})` : ""} from ${boy}`})
+                `;
+      }
+    });
+    await triggerPusher("awards", "award-update", validated.data);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Failed to update attainment" }, { status: 500 });
+  }
+}
+const mod_5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  POST: POST$2
+}, Symbol.toStringTag, { value: "Module" }));
+async function POST$1(req) {
+  const session = await getServerSession();
+  if (!session) return Response.json({ success: false }, { status: 401 });
+  const { token, deviceId } = await req.json();
+  if (!token || !deviceId) return Response.json({ success: false }, { status: 400 });
+  const userAgent = (await headers()).get("user-agent");
+  await withDB(session, (db) => db`
+        INSERT INTO push_subscriptions (user_email, token, device_id, user_agent)
+        VALUES (${session.email}, ${token}, ${deviceId}, ${userAgent})
+        ON CONFLICT (token)
+        DO UPDATE SET user_email = EXCLUDED.user_email;
+    `).catch(() => []);
+  return Response.json({ success: true });
+}
+const mod_6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  POST: POST$1
+}, Symbol.toStringTag, { value: "Module" }));
+async function POST(req) {
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const { resource, emails } = await req.json();
+  const client = await pool.connect();
+  const serverSession = await getServerSession();
+  if (!serverSession || serverSession.type === "boy") return new Response(JSON.stringify({ success: false }), { status: 401 });
+  try {
+    await client.query("BEGIN");
+    await client.query(
+      `SELECT set_config('app.type', $1, true)`,
+      [serverSession.type]
+    );
+    const { rows } = await client.query(
+      `SELECT id FROM resources WHERE name = $1`,
+      [resource]
+    );
+    if (rows.length === 0) throw new Error("Resource not found");
+    const resourceId = rows[0].id;
+    await client.query(`
+            DELETE FROM resources_whitelist WHERE resource = $1
+        `, [resourceId]);
+    for (const email of emails) {
+      await client.query(
+        "INSERT INTO resources_whitelist (resource, email) VALUES ($1, $2)",
+        [resourceId, email]
+      );
+    }
+    await client.query(
+      `INSERT INTO logs (user_email, action) VALUES ($1, $2)`,
+      [serverSession.email, `Updated ${resource} whitelist to ${emails.join(", ")}`]
+    );
+    await client.query("COMMIT");
+  } catch (err) {
+    console.error(err);
+    await client.query("ROLLBACK");
+  } finally {
+    client.release();
+  }
+  await triggerPusher("resources", "updated", {});
+  return new Response(JSON.stringify({ success: true }));
+}
+async function GET(req) {
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const { searchParams } = new URL(req.url);
+  const resource = searchParams.get("resource");
+  const client = await pool.connect();
+  if (!resource) return new Response(JSON.stringify({ success: false }), { status: 400 });
+  try {
+    const { rows } = await client.query(
+      `SELECT email FROM resources_whitelist WHERE resource = (
+                SELECT id FROM resources WHERE name = $1
+            )`,
+      [resource]
+    );
+    return new Response(JSON.stringify({ whitelist: rows.map((r) => r.email) }));
+  } catch (err) {
+    console.error(err);
+    return new Response(JSON.stringify({ success: false }), { status: 500 });
+  } finally {
+    client.release();
+  }
+}
+const mod_7 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  GET,
+  POST
+}, Symbol.toStringTag, { value: "Module" }));
+const Calendar = /* @__PURE__ */ registerClientReference(() => {
+  throw new Error("Unexpectedly client reference export 'default' is called on server");
+}, "957c261005b7", "default");
+const Header = /* @__PURE__ */ registerClientReference(() => {
+  throw new Error("Unexpectedly client reference export 'default' is called on server");
+}, "940a5ae8f5fb", "default");
+const Footer = /* @__PURE__ */ registerClientReference(() => {
+  throw new Error("Unexpectedly client reference export 'default' is called on server");
+}, "0dce242c6c49", "default");
+const calendar = {
+  "January": [
+    { "date": "2026-01-01", "activity": "New Year's Day" },
+    { "date": "2026-01-03", "activity": "Parade" },
+    { "date": "2026-01-10", "activity": "Parade" },
+    { "date": "2026-01-12", "activity": "BB Day (Parade in School)" },
+    { "date": "2026-01-17", "activity": "Parade" },
+    { "date": "2026-01-24", "activity": "Parade" },
+    { "date": "2026-01-31", "activity": "Parade" }
+  ],
+  "February": [
+    { "date": "2026-02-07", "activity": "Parade" },
+    { "date": "2026-02-14", "activity": "Parade" },
+    { "date": "2026-02-17", "activity": "Chinese New Year" },
+    { "date": "2026-02-18", "activity": "Chinese New Year" },
+    { "date": "2026-02-21", "activity": "No Parade" },
+    { "date": "2026-02-28", "activity": "Parade / Kayaking 1-Start (Sec 2s Only)" }
+  ],
+  "March": [
+    { "date": "2026-03-01", "activity": "Kayaking 1-Start (Sec 2s Only)" },
+    { "date": "2026-03-07", "activity": "Parade" },
+    { "date": "2026-03-13", "activity": "Recruit Camp / Leadership Camp (Basic)" },
+    { "date": "2026-03-14", "activity": "Recruit Camp / Leadership Camp (Basic)" },
+    { "date": "2026-03-15", "activity": "Recruit Camp / Leadership Camp (Basic)" },
+    { "date": "2026-03-21", "activity": "No Parade (Hari Raya Puasa)" },
+    { "date": "2026-03-28", "activity": "Parade" }
+  ],
+  "April": [
+    { "date": "2026-04-03", "activity": "Good Friday" },
+    { "date": "2026-04-04", "activity": "No Parade (HBL Week)" },
+    { "date": "2026-04-10", "activity": "BB Blaze Prep Camp (For Selected Boys Only)" },
+    { "date": "2026-04-11", "activity": "BB Blaze Competition (For Selected Boys Only) / No Parade" },
+    { "date": "2026-04-18", "activity": "Parade" },
+    { "date": "2026-04-19", "activity": "BBGB Enrolment Service @ Christalite Methodist Chapel" },
+    { "date": "2026-04-25", "activity": "Parade" }
+  ],
+  "May": [
+    { "date": "2026-05-01", "activity": "Labour Day" },
+    { "date": "2026-05-02", "activity": "No Parade" },
+    { "date": "2026-05-09", "activity": "No Parade" },
+    { "date": "2026-05-16", "activity": "Parade" },
+    { "date": "2026-05-22", "activity": "Leaders' Training Camp (Sec 2 & 3 Only)" },
+    { "date": "2026-05-23", "activity": "Leaders' Training Camp (Sec 2 & 3 Only)" },
+    { "date": "2026-05-24", "activity": "Leaders' Training Camp (Sec 2 & 3 Only)" },
+    { "date": "2026-05-27", "activity": "Hari Raya Haji" },
+    { "date": "2026-05-30", "activity": "No Parade" },
+    { "date": "2026-05-31", "activity": "Vesak Day" }
+  ],
+  "June": [
+    { "date": "2026-06-05", "activity": "BB21 Leaders' Retreat 1 (Appointment Holders Only)" },
+    { "date": "2026-06-06", "activity": "BB21 Leaders' Retreat 1 (Appointment Holders Only)" },
+    { "date": "2026-06-07", "activity": "BB21 Leaders' Retreat 1 (Appointment Holders Only)" },
+    { "date": "2026-06-25", "activity": "First Aid Course (Basic) (Sec 2 Only)" },
+    { "date": "2026-06-26", "activity": "First Aid Course (Basic) (Sec 2 Only)" }
+  ],
+  "July": [
+    { "date": "2026-07-04", "activity": "Parade" },
+    { "date": "2026-07-11", "activity": "Parade / NLAC Camp (Sec 3s Only)" },
+    { "date": "2026-07-12", "activity": "NLAC Camp (Sec 3s Only)" },
+    { "date": "2026-07-18", "activity": "Parade (BB CARES)" },
+    { "date": "2026-07-25", "activity": "Parade" }
+  ],
+  "August": [
+    { "date": "2026-08-01", "activity": "Parade" },
+    { "date": "2026-08-08", "activity": "No Parade" },
+    { "date": "2026-08-09", "activity": "Labour Day" },
+    { "date": "2026-08-15", "activity": "Parade" },
+    { "date": "2026-08-22", "activity": "Parade" },
+    { "date": "2026-08-28", "activity": "CQ Prep Camp (Selected Boys Only)" },
+    { "date": "2026-08-29", "activity": "Character Quest Competition / No Parade (Selected Boys Only)" }
+  ],
+  "September": [
+    { "date": "2026-09-05", "activity": "No Parade (Exam Break)" },
+    { "date": "2026-09-12", "activity": "No Parade (Exam Break)" },
+    { "date": "2026-09-19", "activity": "No Parade (Exam Break)" },
+    { "date": "2026-09-26", "activity": "No Parade (Exam Break)" }
+  ],
+  "October": [
+    { "date": "2026-10-03", "activity": "No Parade (Exam Break)" },
+    { "date": "2026-10-10", "activity": "Parade" },
+    { "date": "2026-10-17", "activity": "Parade" },
+    { "date": "2026-10-24", "activity": "Parade" },
+    { "date": "2026-10-30", "activity": "Adventure Camp (Basics & Advanced)" },
+    { "date": "2026-10-31", "activity": "Adventure Camp (Basics & Advanced)" }
+  ],
+  "November": [
+    { "date": "2026-11-01", "activity": "Adventure Camp (Basics & Advanced)" },
+    { "date": "2026-11-06", "activity": "BB21 Leaders' Retreat 2 (Appointment Holders Only)" },
+    { "date": "2026-11-07", "activity": "BB21 Leaders' Retreat 2 (Appointment Holders Only)" },
+    { "date": "2026-11-08", "activity": "BB21 Leaders' Retreat 2 (Appointment Holders Only)" },
+    { "date": "2026-11-14", "activity": "Parade (Stakeholder Event)" },
+    { "date": "2026-11-20", "activity": "Company Camp" },
+    { "date": "2026-11-21", "activity": "Company Camp / School Open House" },
+    { "date": "2026-11-22", "activity": "Company Camp / Thanksgiving Celebration" }
+  ],
+  "December": [
+    { "date": "2026-12-05", "activity": "HAMPER DELIVERY" },
+    { "date": "2026-12-06", "activity": "BBSG Warehouse Duty (One Full Day | Sec 1 & 2 Only)" },
+    { "date": "2026-12-09", "activity": "FAA Duty (2 Days Only) (For Selected Sec 3 Only)" },
+    { "date": "2026-12-25", "activity": "Christmas Day" }
+  ]
+};
+async function HomePage() {
+  const session = await getServerSession();
+  return /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs(jsxRuntime_reactServerExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(Header, { user: session }),
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(Calendar, { events: calendar }),
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(Footer, { user: session })
+  ] });
+}
+const mod_8 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: HomePage
+}, Symbol.toStringTag, { value: "Module" }));
+const LoginPage = /* @__PURE__ */ registerClientReference(() => {
+  throw new Error("Unexpectedly client reference export 'default' is called on server");
+}, "81098ba4bd29", "default");
+async function Login({ searchParams }) {
+  const params = await searchParams;
+  const next = params.next || "/home";
+  const error = params.error || null;
+  const session = await getServerSession();
+  if (session) return redirect(next);
+  return /* @__PURE__ */ jsxRuntime_reactServerExports.jsxs(jsxRuntime_reactServerExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(LoginPage, { error }),
+    /* @__PURE__ */ jsxRuntime_reactServerExports.jsx(Footer, { user: session })
+  ] });
+}
+const mod_9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Login
+}, Symbol.toStringTag, { value: "Module" }));
+function Home() {
+  return redirect("/login");
+}
+const mod_10 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Home
+}, Symbol.toStringTag, { value: "Module" }));
+function manifest() {
+  return {
+    name: "The Boys' Brigade 21st Singapore Company Portal",
+    short_name: "BB 21st Portal",
+    start_url: "/",
+    display: "fullscreen",
+    background_color: "#ffffff",
+    theme_color: "#ffffff",
+    icons: [
+      {
+        src: "/bb-crest-192.png",
+        sizes: "192x192",
+        type: "image/png"
+      },
+      {
+        src: "/bb-crest-512.png",
+        sizes: "512x512",
+        type: "image/png"
+      }
+    ]
+  };
+}
+const mod_11 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: manifest
+}, Symbol.toStringTag, { value: "Module" }));
+function robots() {
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/"
+    },
+    sitemap: "https://bb21coy-v3.dylanyeowf.workers.dev/sitemap.xml"
+  };
+}
+const mod_12 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: robots
+}, Symbol.toStringTag, { value: "Module" }));
+function sitemap() {
+  return [
+    {
+      url: "https://bb21coy-v3.dylanyeowf.workers.dev",
+      lastModified: /* @__PURE__ */ new Date(),
+      changeFrequency: "monthly",
+      priority: 1
+    }
+  ];
+}
+const mod_13 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: sitemap
 }, Symbol.toStringTag, { value: "Module" }));
 function _getSSRFontStyles() {
   return [...getSSRFontStyles$1(), ...getSSRFontStyles()];
@@ -15687,10 +16458,118 @@ function rscOnError(error) {
 }
 const routes = [
   {
-    pattern: "/",
+    pattern: "/api/auth/login/callback",
     isDynamic: false,
     params: [],
-    page: mod_0,
+    page: null,
+    routeHandler: mod_0,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/api/auth/login",
+    isDynamic: false,
+    params: [],
+    page: null,
+    routeHandler: mod_3,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/api/auth/logout",
+    isDynamic: false,
+    params: [],
+    page: null,
+    routeHandler: mod_4,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/api/awards",
+    isDynamic: false,
+    params: [],
+    page: null,
+    routeHandler: mod_5,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/api/notifications",
+    isDynamic: false,
+    params: [],
+    page: null,
+    routeHandler: mod_6,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/api/resources",
+    isDynamic: false,
+    params: [],
+    page: null,
+    routeHandler: mod_7,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/calendar",
+    isDynamic: false,
+    params: [],
+    page: mod_8,
     routeHandler: null,
     layouts: [mod_1],
     layoutSegmentDepths: [0],
@@ -15699,22 +16578,72 @@ const routes = [
     slots: {},
     loading: null,
     error: null,
-    notFound: null,
-    notFounds: [null],
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/login",
+    isDynamic: false,
+    params: [],
+    page: mod_9,
+    routeHandler: null,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
+    forbidden: null,
+    unauthorized: null
+  },
+  {
+    pattern: "/",
+    isDynamic: false,
+    params: [],
+    page: mod_10,
+    routeHandler: null,
+    layouts: [mod_1],
+    layoutSegmentDepths: [0],
+    templates: [],
+    errors: [null],
+    slots: {},
+    loading: null,
+    error: null,
+    notFound: mod_2,
+    notFounds: [mod_2],
     forbidden: null,
     unauthorized: null
   }
 ];
 const metadataRoutes = [
   {
-    type: "favicon",
-    isDynamic: false,
-    servedUrl: "/favicon.ico",
-    contentType: "image/x-icon",
-    fileDataBase64: "AAABAAQAEBAAAAEAIAAoBQAARgAAACAgAAABACAAKBQAAG4FAAAwMAAAAQAgACgtAACWGQAAAAAAAAEAIACNHgAAvkYAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQAAABdAAAAugAAALoAAABdAAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAKAAAADyAAAA/wAAAP8AAAD/AAAA/wAAAPIAAACgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAOAAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAOAAAAA4AAAAAAAAAAAAAAAAAAAAHwAAAOIAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA4gAAAB8AAAAAAAAAAAAAAKEAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAChAAAAAAAAACMAAAD0AAAA/wAAAP9PT0//rq6u/6urq/+rq6v/q6ur/6urq/+tra3/Z2dn/wAAAP8AAAD/AAAA9AAAACMAAABZAAAA/wAAAP8AAAD/Hx8f/+3t7f///////////////////////f39/zU1Nf8AAAD/AAAA/wAAAP8AAABZAAAAuwAAAP8AAAD/AAAA/wAAAP9ra2v//////////////////////46Ojv8AAAD/AAAA/wAAAP8AAAD/AAAAuwAAALsAAAD/AAAA/wAAAP8AAAD/CQkJ/83Nzf///////////+Tk5P8YGBj/AAAA/wAAAP8AAAD/AAAA/wAAALsAAABZAAAA/wAAAP8AAAD/AAAA/wAAAP9KSkr//f39//////9ra2v/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAABZAAAAIwAAAPQAAAD/AAAA/wAAAP8AAAD/AQEB/7a2tv/V1dX/CQkJ/wAAAP8AAAD/AAAA/wAAAP8AAAD0AAAAIwAAAAAAAAChAAAA/wAAAP8AAAD/AAAA/wAAAP8xMTH/RERE/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAoQAAAAAAAAAAAAAAHwAAAOIAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA4gAAAB8AAAAAAAAAAAAAAAAAAAA4AAAA4AAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA4AAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAACgAAAA8gAAAP8AAAD/AAAA/wAAAP8AAADyAAAAoAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQAAABdAAAAugAAALoAAABdAAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAAAsAAAAVQAAAIEAAADoAAAA6AAAAIEAAABVAAAALAAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACoAAACFAAAA0gAAAPkAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAA0gAAAIUAAAAqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAACWAAAA8wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPMAAACWAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABRAAAA4QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADhAAAAUQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcgAAAPsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD7AAAAcgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHIAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAcgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABPAAAA+wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD7AAAATwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGwAAAOQAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADjAAAAGwAAAAAAAAAAAAAAAAAAAAAAAACXAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACXAAAAAAAAAAAAAAAAAAAAKAAAAPUAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPQAAAAnAAAAAAAAAAAAAACGAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/ODg4/4uLi/+IiIj/iIiI/4iIiP+IiIj/iIiI/4iIiP+IiIj/iIiI/4iIiP+IiIj/iIiI/4iIiP+JiYn/X19f/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAIYAAAAAAAAABwAAANQAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8eHh7/7u7u//////////////////////////////////////////////////////////////////////9TU1P/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA1AAAAAcAAAArAAAA+gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP9oaGj/////////////////////////////////////////////////////////////////rq6u/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD6AAAAKwAAAFQAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wgICP/Ly8v///////////////////////////////////////////////////////T09P8sLCz/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAABUAAAAggAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/0dHR//9/f3/////////////////////////////////////////////////jY2N/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAIEAAADpAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/62trf///////////////////////////////////////////+Tk5P8XFxf/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA6QAAAOkAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/Kysr//Pz8///////////////////////////////////////ampq/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADpAAAAgQAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/i4uL/////////////////////////////////8zMzP8ICAj/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAIIAAABUAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8WFhb/4+Pj///////////////////////9/f3/SUlJ/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAVAAAACsAAAD6AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP9oaGj//////////////////////6+vr/8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAAArAAAABwAAANQAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wgICP/Ly8v////////////09PT/LCws/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA1AAAAAcAAAAAAAAAhgAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/0dHR//9/f3//////42Njf8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACGAAAAAAAAAAAAAAAnAAAA9AAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/7Gxsf/s7Oz/FxcX/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA9QAAACgAAAAAAAAAAAAAAAAAAACXAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/MzMz/19fX/8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACXAAAAAAAAAAAAAAAAAAAAAAAAABoAAADjAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA5AAAABsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE8AAAD7AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPsAAABPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHIAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAcgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHIAAAD7AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+wAAAHIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFEAAADhAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAOEAAABRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAACWAAAA8wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPMAAACWAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqAAAAhQAAANIAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAANIAAACFAAAAKgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAACwAAABVAAAAgQAAAOgAAADoAAAAgQAAAFUAAAAsAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAwAAAAYAAAAAEAIAAAAAAAAC0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAAAKAAAAEwAAABqAAAAswAAAPgAAAD3AAAAswAAAGoAAABLAAAAKAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATAAAAVgAAAKAAAADYAAAA+AAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+AAAANgAAACgAAAAVQAAABMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAIsAAADhAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAOEAAACLAAAAJgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYAAACLAAAA7wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA7wAAAIsAAAAWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUQAAANwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADcAAAAUgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAACKAAAA/gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/gAAAIoAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAK0AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACtAAAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAuAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAuAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAACuAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAK4AAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIoAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAP0AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD9AAAATwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVAAAA3wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA3wAAABUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACLAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAIsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACMAAADxAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPEAAAAjAAAAAAAAAAAAAAAAAAAAAAAAAIwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACLAAAAAAAAAAAAAAAAAAAAEQAAAOQAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8kJCT/aGho/2VlZf9lZWX/ZWVl/2VlZf9lZWX/ZWVl/2VlZf9lZWX/ZWVl/2VlZf9lZWX/ZWVl/2VlZf9lZWX/ZWVl/2VlZf9lZWX/ZWVl/2VlZf9lZWX/ZWVl/1BQUP8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADkAAAAEQAAAAAAAAAAAAAAVQAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8cHBz/6+vr/////////////////////////////////////////////////////////////////////////////////////////////////////////////////3Nzc/8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAVQAAAAAAAAAAAAAAoQAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/ZWVl////////////////////////////////////////////////////////////////////////////////////////////////////////////zMzM/wgICP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAoQAAAAAAAAAJAAAA2gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/BwcH/8nJyf/////////////////////////////////////////////////////////////////////////////////////////////////9/f3/SEhI/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA2gAAAAkAAAAoAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/0VFRf/8/Pz///////////////////////////////////////////////////////////////////////////////////////////+urq7/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+AAAACgAAABLAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP+qqqr///////////////////////////////////////////////////////////////////////////////////////T09P8sLCz/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAEwAAABqAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8pKSn/8vLy/////////////////////////////////////////////////////////////////////////////////4yMjP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAGoAAAC0AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/iIiI////////////////////////////////////////////////////////////////////////////4+Pj/xYWFv8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAALMAAAD4AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/FBQU/+Hh4f//////////////////////////////////////////////////////////////////////aWlp/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPgAAAD4AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/2VlZf/////////////////////////////////////////////////////////////////Ly8v/CAgI/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPgAAACzAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wcHB//Jycn///////////////////////////////////////////////////////39/f9ISEj/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAALQAAABqAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP9FRUX//Pz8/////////////////////////////////////////////////66u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AAAAAAAAAAAAAAAAAAAAAAAVAAAA3wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA3wAAABUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATwAAAP0AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD9AAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIoAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAACuAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAK4AAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAuAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAuAAAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAK0AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAACtAAAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAACKAAAA/gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/gAAAIoAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUgAAANwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADcAAAAUQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYAAACLAAAA7wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA7wAAAIsAAAAWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJgAAAIsAAADhAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAOEAAACLAAAAJQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATAAAAVQAAAKAAAADYAAAA+AAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+AAAANgAAACgAAAAVgAAABMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAAAKAAAAEsAAABqAAAAswAAAPcAAAD4AAAAswAAAGoAAABMAAAAKAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACJUE5HDQoaCgAAAA1JSERSAAABAAAAAQAIBgAAAFxyqGYAAAABc1JHQgCuzhzpAAAAOGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAACoAIABAAAAAEAAAEAoAMABAAAAAEAAAEAAAAAAEQiOHMAAB4DSURBVHgB7V0JsBXVmW6UXQg8FhFRVkGW6MRoJAnKToyOMTMqiHGwwmSqBsSNqUmhiAiYRJNMMpOqKM4UKNSYMtbEmdEYGUcJi8FxX0DlsYjghoobEngIyJvvu9CPvo97b/e9vZ3T/f1V33t9u0+f5Tvn//v0+c853cKRZIGBrihEZ6AT0BE4CegD9AROALoBXYDuQAugDmgDeKURP3YADcBO4DPgPWA78DbwLvAmsAvgdeIT4CAgsZQBNgaJHQxQganQvYDBQP/DoFLTAFD5aQRaA3HKXkRO4+AagHdwvA3YDLwB0FjQaNCYSAxnQAbAzAo6GdniE3wI8DVgIHAiQAPAJ7zJsgeZc3sN63D8KvAywN4DjYXEIAZkANKvjJbIAhV8KDAS+AowAOCTPkvyFgqzBXgeWAOsBzYBBwBJSgzIAKRDfD8kS0UfBwwHTgHYfc+TfIrC8rXhGeB/AfYWaCAkCTIgA5AM2Xwvp8KPAC4ATgN6AJIjDLyPw1eAZcAK4DWA4w2SGBmQAYiP3LaI+gzgO8B5AJW+FSDxZ+BzBKkHHgZoEF4AGgBJxAzIAERMKKI7E7gEOB+g0h8LSGpngGMEHEh8CHgQoDGgy1IiBoxhgO/004GVAEfB2UCF6DlgL2AlMAPoDUjEQGoM8L1+LLAIoNtLCp8sB3QpLgbOAehJkYiBRBjogVSmAk8C+wEpfrocsA5WA+yBdQUkYiAWBuiqmw3QVSWlN5ODjaib+QBfySRiIBIGOEHn18AHgBTfDg74SvYzYBggEQM1MTAEd1HxPwak+HZy8NHhOvwy/kvEQCAGpPh2KnslI+0agkGBWoAC5ZKBXij1zwE98bNnAFzjwFeD2wGNEYAEySEGOuDfLGAb4DYU/c82FzQEM4E6QJJjBi5G2Z8DpPD55IB1PxHQPAKQkCfhFN0HgIOAlF8c3I92cDogyTgDHVG+mwEOCknxxYG3DXB7M87z0GsBSMiijEehngK8la5j8dG8DTyNNjImiwqQ1zJ1Q8H/BeDa8uaVrd/ipFQb+DPaCr0F6g2ABJuFO+68CJSqZJ0TL35tgL0BLviSWMZAe+R3LrAb8KtkXRdHldoAewNsS9zgRWIBA5z//ShQqVJ1TfxU2wYeQ5vS2gLDDcBk5O9dKb+MX0xt4D3E+z1AYhgDnM33S4DbR1Vr2RVenFXTBtjG2Nb4mikxgIEByAO7Z9VUosKKr7BtYDnaXH8D2n+us8BR/s1A2MrU/eKwljbwOtqe1V4Cm3esnQby7wG4RZdEDKTBAOcJ/DWwE+C6AuvERgPQBizfBtwK8FgiBtJkgG3wPIBuQn7y7AtAEhMDtLj3ArV013SPeIu7Dfw72mbePvEWk6ofHe1JOLUCiLsSFb84DtMGuEMx26okQga4lROnZYapGN0r/pJqA2yr3EVaEgEDwxHHJiCpylM64jqKNrABbfbrEbT/XEcxGqXnF2CiqBDFIR6TbgNsu2zDxorJXoBRYO23QE9j2VPGxEBlBrgBzbcBugi556RxYqoBcJX/BOMYU4bEQHUMcJq6sUbARANA5b8P0JO/uoam0OYyQCPAuQLG9QRMMwCjQZKUHyRIMscAXwdoBJ4HtgJGSAsjcnEoExzt/0/gRIPypKyIgagZ4HJ1bkdPV2HqYooBGAAmlgEDU2dEGRAD8TPARUTnA3RvpyrHpJr6ocQ5a4rdfim/AZWhLCTCAB94vwFSnzGYdg/gSyDhD8A5gEQM5I2BVSjwdwGuJkxF0hwE5Oqpu4ALUym5EhUD6TPQF1k4GXgEOAAkLmkagAUo7YzES6wExYBZDJyO7PBhyF2tEpe0DMA0lPTHgAljEImTrgTFQDMGuGbgA4DzBBKVNMYAxqKE/w3QLyoRA2LgEAP8/gDHA/6YJCFJG4B+hwvYN8lCKi0xYAkDbyCfEwC6CRORJLvgx6FEi4G+iZRMiYgB+xjgA/LfAOpKIpLkGMBPUaLLEymVEhED9jJAI9AOeDSJIiRlAKj4twNJ9jiS4E9piIE4GPgaIt0AvBpH5N44W3h/xHQ8FPEuB7S0NyaCFW0mGdiOUo0HXouzdHH3ANiV4S6+p8VZCMUtBjLIAL1kpwIPAPvjKl/cBuAmZHxqXJlXvGIg4wz0R/n2AaviKmecrwCjkemHgcRGNOMiSfGKgRQZ2IO0LwBiMQJxGYBOyPDjwFmARAyIgXAMvIzbOYHu43DRHH13XK8A85HUpKOT0xkxIAZqYIAD6BxP+58a7q14Sxw9gNFI8fcA90GTiAExEA0DnyMavgpEOlU4agPA9f10+anrDxIkYiBiBp5BfHwV2B1VvFG/AvwDMjYlqswpHjEgBooY6IVfDcDqorMhfkTZA+C65pUAv+ArEQNiIB4GPkG03Dp/XRTRHxNFJIijNTAXkPJHRGhS0XTo0MHp3bt3UskpnfAMUMcWAJHobiSRIDPc1usSQGIZA1OnTnWWLFnitGrVyrKc5zq7F6H03DvACOHA3/NAo2AXB8cff3zjli1bGimTJ09W/dnVhqlzRnjarpPi26X4bn3NmzevoPz8s379+sa6ujoZAbuMwA9Rl6lKX6TOVUtqOJZxMHjw4MYdO3Y0GQAezJ49W/VoVz2+Cd3rCaQmtyFlNRrLOGjRokXj3XffXaT8/PHhhx829u/fX/VpV33+U1raPwgJvy8DYJ8BHDt2bOO+ffuOMgA8sWjRIhkAuwzAp9BB7rmRuNyBFNVYLOOgbdu2jStWrCip/Dy5d+/exhEjRqhe7arXO5PW/mFI8GMZAPsM4JQpU8oqv3th+fLljXALygjYYwQ4OSjRXoCe/vY0jiZFpttvw4YNrp5X/C+3oHXGPbFegJ7+Fio/e2tet19F7cfF+vp6uQXtqmf2AoYAVUkti4HoexxXVSoKnDoDcPs5CxcudNq3bx8oL926dXM+++wz54knnggUXoFSZ4DfF+TankfizElfRK6Rf7ueDI3l3H5+vQC5Ba17DfgI+tk/TgMwH5E3vVPq2A4uxo0b17h//34/fS95XW5BO+rYo4uz4zIAXRDxRk9CMgQWGEM/t19JrfeclFvQOgOwBTraPQ4jwE96S+kt4yCI28+j7yUP5Ra0rt1/P2oD0AYR/kkGwK6GUI3br6Tme07KLWhV3f8fdJU6G5mcg5j4gQL1ACzioBq3n0fXSx7KLWhV2+cGomODaH9QNyAH/84MEqHCmMFAtW4/v1zTLbhr1y65Bf2IMuM69fog8GAU2eFGhNsBPf0t4aBWt1/JR7/npNyCVukA3fV9ojAAV0n5rar4Rrr9yq328+hzTYdyC1rVFjhwH0q4UdwqQE9/SzgI6/bzswpyC1qlC9TdlmEsAN/7d8sA2FPpV155pZ8Oh74ut6A17WEPdDfU2N2PpPzWVHYj3X4bN24MreBBIrj88svVK7SjV/gT6HBNwsUFLwGqaEs4iNLt52cE5Ba0Ri9ehA63q8UCjMBNe2UA7KjoUpt8+ilx2Os33XSTHg7mPxw4J+AbtRiAH0v57VB+uv3uueeesPpc9f1yC9rRPqDHt1VrANhlUPfffOteeALH6fbzswqLFy9WL8D8dvIC9Jmv9IHlDITkCKIq13AO4nb7+RkAuQWt0BG+yp9dSvvLfRuQ84hrGjgolYjOxcfAxIkTndGjR8eXgE/Mbdq0cRYsWKBvC/rwlPJlLgzimF4goVF4HNDT33AOknT7+fUE5BY0Xl8eg06Xe+AXGYa++MV5xDIAhnOQpNvPzwDQLdi5c2e1GXPbzAfQaep2kZRaDTgKIX5QFEo/jGOAq/3uuuuuwJt8xl0ArhbcvXu3s3r16riTUvy1MXAcbuPU4Hrv7aW6BBO8AXRsHgNw+zmzZs1yunbtalTmrr/+egffFjQqT8pMEQPji36V+NEa554D1JUzmIM03X5+rwJyCxqtO9Rt6nhZGYwr/MCADIChHKTt9vMzAHILGq071G3qeJM0fwXg98U6N13VgXEMTJo0KVW3nx8hcgv6MZTqdeo2v+zVJM0NwDebrujAOAa6d+/uzJkzx7h8Nc8QPj/uXHrppc1P67cZDJzrzYbXAPD4LO9FHZvFwIwZM5yBAwealakyubnlllucurq6Mld1OkUGvoK0m7x/XgNwAi4MSDFjSroCA3T7XX311RVCmHXp1FNPda66irvJSQxjgE+QnqXyxCWDBwANABrGQVqr/fwG/Pyua7WgkbpEHT/HNQDeHkBR18ANoP/pM8B36iuuuCL9jFSZA85TwJ4BVd6l4DEzwO4/B/sL4jUATSfdi/qfPgNw+xUG/lq1apV+ZmrIAQ3XiBGB16HUkIJuqYGBprE+1wDw/2k1RKRbYmYg7dV+YYsnt2BYBmO5n+MALbwx82uimwG9/xvEgUmr/fze9/2ua7WgUbrFr3zza99NywPpASg5MshAknQYsMnt58cQ3YJYLegXTNeTYYD6TjQZgJNx3J4nJGYwQLcfDUBWhG5Bm9yYWeG9TDk64nwvXnPHAPqXCajTKTBg6mq/sFRcd911Wi0YlsTo7h/CqFwDoAlA0REbOqaxY+10+/kVnHsGyC3ox1Ji1/sxJdcA9EksWSVUkQHb3X4VC4eLcgv6MZTY9cJDnwaAHw8svA8klrQSKsuA6av9ymY84AW5BQMSFX8wev6OpQHoBGjVRvyE+6YAt58Vq/18C+ITgK84Wi3oQ1L8l7mdVGfXANAISFJmgItnbFntF5aquXPnyi0YlsRw99MnKwMQjsPo7rZttV/YkmfNzRmWjxTu50O/E3sA9AnywwGSlBjIqtvPj86ZM2fKLehHUnzXuTdgRxqA3vGloZiDMJBVt59f2bVa0I+h2K+fRAOgKcCx81w+gay7/cqX/NAVuQX9GIr1eh8aAE4DlqTEQNbdfn60yi3ox1Cs13tyc4C/BbQXQKw8l46cm3wuXbrUuA98lM5tfGf79evnrF+/3nnllVfiS0Qxl2LgTb0ClKIloXNcHJMXt58fpXIL+jEUy/Vu7AFcCxSWBsaShCItyQDdYAsXLjTm234lM5ngSX1bMEGyjyS1kz0ALdI+QkgiR67bj41ecoQBrRY8wkVCR91pANollJiSOcxAXt1+fg1AqwX9GIr8+jHcF+wLgIZAkgADdPstW7bM6M97JUBD2STwbUFn/Pjxzpo1a8qG0YXIGPicii/lj4xP/4hs3+TTv4ThQtBALliwwLF1F+RwpU/87jYcBJyXeLI5TVBuv2AV37dvX6e+vl5uwWB0hQqlp38o+qq7mYNccvv5c8ZB0nnz5unbgv5UhQ6hHkBoCoNFMGzYMOfOO+902rXTmGsQxrhOoKGhwVm1alWQ4ApTIwPsAXxe4726LSADfKLdcMMNTpcuha3YA96lYNdee616TPE2g4M0AJ/Em4Zi56j2ZZddJiKqZIAGc86cOVXepeBVMPAhDcDBKm5Q0CoZYJf/5ptv1qh2lby5wWk4R40a5f7U/2gZaKAB2BFtnIrNy8DkyZOdc88913tKx1UwwNWC8+fPd1q35v4VkogZ+JSDgOyb9o04YkUHBnr06OEsWbJE7/4hW0OfPn2cjRs3OmvXrg0Zk25vxsBm9gA+anZSPyNigINYAwYMiCi2/EbDQVS+RtXVafPqiFvBe+wBsH96dsQR5z66oUOHyu0XYSuQWzBCMo9EtZw9gO1HfusoCgb4xLrxxhvV9Y+CTE8c11xzjdyCHj4iOHyLBmBbBBEpCg8DEyZMcDj4J4mWAfYC5BaMlNPtNABvRxplziOj248fwGzZkl9ck0TNgNyCkTJa2BJsF6LcF2m0OY6MDXTkyJE5ZiDeosstGBm/nAG8iz2AnYcRWcx5jYhuP3VR4699GljNrAzNc0HvaQA+PYzQMeY9Ag5Sye0XfyvgICsNrdyCobguMgCaCxCKS+yrDrff9OnTQ8ai24MyMGjQIIfLqyU1M8A1QIVNQbklmKYD18yj48jtF4K8ELdqW/UQ5DnOO7j7AF8BKK8f+qe/tTDA1X5y+9XCXLh79G3BUPwV3P+uAXgjVFQ5vpluP76Pyu2XTiOg4ZXXpSbuCw991wCsrykK3VQYjVYDTK8huN8W1GrBqutgC+9wDQDfBzgfQFIFA3L7VUFWjEHlFqya3D244y3e5RqA93BMSKpgQG6/KsiKMajcglWTy/U/BX13DQBdAuwFSAIyQLfftGnTAoZWsLgZoFuQy68lgRjg9P+C6981AI04sSnQrQpUYICbfHIUWmIOA1otGLgu1iFkYStA1wDwzucC357zgFrtZ2YDkFswcL285ob0GgCe5KQgSQUGtMlnBXIMuCS3oG8lUMdfckN5DcBWnHzfvaD/pRngIhRt8lmaGxPOyi3oWwscAGzaA8RrAHhB4wAV+JPbrwI5Bl2iW3DSpEkG5ciorHACUJPHz2sAiroGRmXZkMzI7WdIRfhkg25BbSJaliSO9TV9C4SbgnrlOPyQ6fQycvhYm3yWIMXgUxwQ3Lt3r7Ny5UqDc5lK1n6BVJtm/np7AMzNqwD3B5B4GNBqPw8ZFh1qteBRlUXdbvIA8GpzA8D5wXxHkHgY0Lf9PGRYdCi34FGVRd0urAFwrzQ3ANwb8Cn3ov47hc95c7Vfq1atRIeFDMgtWFRp1O2i/T+bGwCGfrzolpz/kNvP7gYgt2BR/T1W9As/mg8C8vpe4AqAA4K5Frr9li5dqg98WN4K9G3BQgV+gL8/AorG+Er1AN5EoJcLt+T8j9x+2WgAcgsW6pHz/6nbRVKqB8CFQd2A84pC5uwH3X533HGH0759+5yVPJvFlVvQuQM1+2Tz2i3VA2CYNQA/HJBLcd1+bDSS7DBAt+App5ySnQIFL0kDgq4oFbycAeCH2Iv8haVuzuo5uf2yWbM06JwhmEPZiDLXlyp3OQPAgcBHS92Q9XPuJp9y+2WzpnP66bY/oDbZCzhKyhkABnwIKPIZHnV3Bk/ktIFksCZLFymHbkG+yj9Smo3SbkA3LLcMugg4wT2R9f9y+2W9hg+Vj27BTZs2OWvX8k0388Lp/bcCB0qVtFIPgF2GZaVuyuo5uf2yWrPF5eIgLz/hnpNvCz6M0vOVvqSUcgN6A3LSwBQg8/Ng5fbzVnv2j7t16+Y0NDQ4q1atynJh96BwswDu9VFSWpQ8e+RkSxwuB0YeOZW9I35U4r777nMuvvji7BVOJSrLAA3A8OHDnXXrOEcmk7IapRoP7C9XOip4JeF7w31Apg0Au4JsBPX19U5jI+dBSfLAwLHHHpv1ad73ox7LKj/r2K8HwDB9gGeA4/lDIgbEgBUMcNuvs4CK3/uoNAjolpIbCNKPKBEDYsAeBjiAX1H5WZQgBoDh7gVyNyeABZeIAQsZYLf/7iD5DmoAuDbghSARKowYEAOpM8BX9meD5CKoAeBson8NEqHCiAExkDoD7LFTZ30lyCCgGwkHAbmlUD/3hP6LATFgHAObkKOvAx8HyVnQHgDj4o4ii4JEqjBiQAykxgDd9oGUnzmspgfA8P0Bvlt04Q+JGBADRjHAh/RwYGvQXFXTA2Cc3FL4t0EjVzgxIAYSZWApUttaTYrV9gAY9xCAWwt15g+JGBADRjDwCXJxLsDVf4Gl2h4AI14P8D1DIgbEgDkMUCerUn5mvZYeAO8bCnBugHoBZEMiBtJloKanP7NcSw+A970GqBdAJiRiIH0Ganr6M9u19gB4L3sBHAvoxB8SMSAGUmGAI/989+fGn1VLrT0AJsRegOYFVE25bhADkTLAOf81KT9zEaYHwPt7Ak8DJ/OHRAyIgUQZ4JLfbwBba03Vb0swv3j/jADcVGSCX0BdFwNiIHIG5iDGR8PEGrYHwLQ7AKuAr/KHRAyIgUQY4OrcMcBnYVIL2wNg2twnYAcwEYjCoCAaiRgQAz4MXI3rL/mE8b0cZhDQG/mD+PGQ94SOxYAYiI2B3yFmbvcdWqJ8Yp+G3PBVoC50rhSBGBAD5RjgpJ/RwNpyAao5H8UrgJse/ZGtgLHuCf0XA2IgcgZuRYwPRBVrlD0A5uk44I/A2fwhEQNiIFIGnkNs44BQA3/eHEXZA2C83IyQS4YnA37fHEAQiRgQAwEZoMt9KrAhYPhAwaI2AEz0DaA7wI0JJGJADETDwD8jmshn3kb9CuAWtQsOVgIcGJSIATEQjgF2/ccDO8NFc/TdUbkBm8fMPcmuA/Y0v6DfYkAMVMXAboT+IRC58jMXcbwCMF7KVoDjAGMAiRgQA7Ux8BPctrS2W/3viusVwE25PQ44SYjdF4kYEAPVMUCP2oVAQ3W3BQ8dtwFgTrhvwOMAVw5KxIAYCMYAV/rR5cdl97FJnK8Abqa5TuBt4K+AuMYc3LT0XwxkgYEDKMQ0YEXchUnCALAMrwKcIsy1yxIxIAYqM/ArXP5F5SDRXE3iFcDNKWcJcsGQpgq7jOi/GDiaAT71vwNw9D92SdIAsDADgMeAfvwhEQNioIiBrfjFByQn0yUiSb+Tv45S/R3AaY0SMSAGjjCwC4c/ABJTfiad1BgA03KFBeSSxguApHsgbh70XwyYxMAXyMxM4D+SzlQaBoBl5NTGjsA3+UMiBnLOwE9RfiJxScsAsKBPABwLOJ0/JGIgpwzci3L/I0DXX+KSdhe8E0rMmYKjEi+5EhQD6TPwJ2ThL4HI1vdXW6SkBwGb528nTvwN8GzzC/otBjLOANv85UBqyk9+0+4BMA+UgcAyYAB/SMRAxhnYhPKdD9Arlqqk3QNwC09CrgDedU/ovxjIKANs41OA1JWf/KY5CMj0vfIOfvBjB98GOngv6FgMZIQBLvD5HrDGlPKYZADIyVbgeUBGACRIMsUAlZ/v/CtNKpVpBoDcbAU4T0BGACRIMsEAlZ8b5a4yrTQmGgBytA1QT8C01qL81MKA++Q3TvlZGFMNAPO2FaAR+BbAWYMSMWAbAxzw4zv/SlMzbrIBIGdbgSeBkUBXQCIGbGFgMzLKbj8n+0hCMnAK7n8aaBTEgQVtgG11ECCJkIGTENdqQEZAHJjcBlagjbKtWiGmvwJ4SeSUyf8CSK4WEHmZ0bEpDPwGGfk+wA/lWiE2GQASuhfglGHOYOT+gqbMZERWJDlmgOv5fwlwTb82u0moIUxHOlxMZHJ3UHnLfv1Q4acl1OaVTDMGxuE351RL0cRBGm2AbW98szapnwkz0B/pLQfSaABKM7+8P442NyDhth55craNAZQigPsL/g7gZ8jOBjQuABIksTHA9/1fAX8PvB9bKoq4Jga4pJhTL/VkFgdxtAHO7OPkHonBDAxD3h4D4mgAijO/vD6KNsW2JbGAgbbI41yAI7RSWnEQpg3wCz1sS3zFlFjGwFjkV1OIZQBqNQAvof3Q0ySxmIE65P12QL0BGYKghoATzjjQ1w2QZISBMSiHegMyAn5G4Cm0E/n2M6L0zYvB3sBsgK5Dv4ag6/ni6CO0iZsB7T0BErIuXEx0PyAlFwcH0Q4eAE4DJDlioCXKOhHg/oMyBPnkgHV/CSDJMQN8LZgJbAdkCPLBAfecnAV0ACRioMBAP/ylt0CGILtG4GPU78+BXoBEDJRkgFs5/RrgoJB6BNnggIrPOh0KSMRAIAa+jFAyBHYbACl+oKauQJUY4PzvnwF6NbDHGHyA+tITv1Kr1rWqGeAYwXxgI6BXAzM52IK64TwP7iItEQOxMMDvE1wFPAHsB2QM0uWAdcBvR0wFegASMZAIA5xHcA6wGOCXjWUIkuWAr2SLAC74ag1IxEBqDPRGyjOAlUADIGMQDwd7DnM8Hf/5SiYJyUCLkPfr9mIGuB3ZGcB3gYsADiCypyCpnQFuwbUO4HbwnLL7PCCJiAEZgIiILBFNO5z7KnA+cCEwGGgDSPwZ4Hs9lZ678PweeBHgEl1JxAzIAERMaJno2uI8J6GMAWgQOMdAA1YgwSPv45hK/wiwBuBmHPsASYwMyADESG6FqPvjGleffQvgTsZ0W3UG8iSforCbgaeB5QAV/g1AkiADMgAJkl0mKY4RDASGACOAMwEaiJOBLAk9Ja8DVPTVwGvAJuAAIEmJARmAlIj3SbYXrtOz8BcABxLZWzgJ6Am0B0yWXcgcXXTvAlTwZ4H1wDbgLUBiEAMyAAZVhk9WuuM6DQANQT+Arw19ABoLLmnuBHwJ4HhDnML3cnbfdwIfATsAzsAj6gE+6WkAOA9fYjgDMgCGV1CA7NH16BoAGoGOAHsPJwJur+EEHNM48Ho7gMaked1/jnOfAJzDQKWmAn8IvAdQobcBbwN8wlP5aQRoACQWM/D/QN+5DmrsiuEAAAAASUVORK5CYII="
+    type: "manifest",
+    isDynamic: true,
+    servedUrl: "/manifest.webmanifest",
+    contentType: "application/manifest+json",
+    module: mod_11
+  },
+  {
+    type: "robots",
+    isDynamic: true,
+    servedUrl: "/robots.txt",
+    contentType: "text/plain",
+    module: mod_12
+  },
+  {
+    type: "sitemap",
+    isDynamic: true,
+    servedUrl: "/sitemap.xml",
+    contentType: "application/xml",
+    module: mod_13
   }
 ];
-const rootNotFoundModule = null;
+const rootNotFoundModule = mod_2;
 const rootForbiddenModule = null;
 const rootUnauthorizedModule = null;
 const rootLayouts = [mod_1];
@@ -15989,7 +16918,7 @@ async function buildPageElement(route, params, opts, searchParams) {
     }
   }
   {
-    const NotFoundComponent = route.notFound?.default ?? null;
+    const NotFoundComponent = route.notFound?.default ?? $$wrap_NotFound;
     if (NotFoundComponent) {
       element = react_reactServerExports.createElement(NotFoundBoundary, {
         fallback: react_reactServerExports.createElement(NotFoundComponent),
@@ -16275,15 +17204,15 @@ function __matchConfigPattern(pathname, pattern) {
 }
 function __parseCookies(cookieHeader) {
   if (!cookieHeader) return {};
-  const cookies = {};
+  const cookies2 = {};
   for (const part of cookieHeader.split(";")) {
     const eq = part.indexOf("=");
     if (eq === -1) continue;
     const key = part.slice(0, eq).trim();
     const value = part.slice(eq + 1).trim();
-    if (key) cookies[key] = value;
+    if (key) cookies2[key] = value;
   }
-  return cookies;
+  return cookies2;
 }
 function __checkSingleCondition(condition, ctx) {
   switch (condition.type) {
@@ -16444,19 +17373,19 @@ async function __proxyExternalRequest(request, externalUrl) {
   for (const [key, value] of originalUrl.searchParams) {
     if (!targetUrl.searchParams.has(key)) targetUrl.searchParams.set(key, value);
   }
-  const headers = new Headers(request.headers);
-  headers.set("host", targetUrl.host);
-  headers.delete("connection");
-  headers.delete("cookie");
-  headers.delete("authorization");
-  headers.delete("x-api-key");
-  headers.delete("proxy-authorization");
-  for (const key of [...headers.keys()]) {
-    if (key.startsWith("x-middleware-")) headers.delete(key);
+  const headers2 = new Headers(request.headers);
+  headers2.set("host", targetUrl.host);
+  headers2.delete("connection");
+  headers2.delete("cookie");
+  headers2.delete("authorization");
+  headers2.delete("x-api-key");
+  headers2.delete("proxy-authorization");
+  for (const key of [...headers2.keys()]) {
+    if (key.startsWith("x-middleware-")) headers2.delete(key);
   }
   const method = request.method;
   const hasBody = method !== "GET" && method !== "HEAD";
-  const init2 = { method, headers, redirect: "manual", signal: AbortSignal.timeout(3e4) };
+  const init2 = { method, headers: headers2, redirect: "manual", signal: AbortSignal.timeout(3e4) };
   if (hasBody && request.body) {
     init2.body = request.body;
     init2.duplex = "half";
@@ -17054,7 +17983,7 @@ async function _handleRequest(request, __reqCtx) {
                 }
               }
             }
-            if (!parentNotFound) parentNotFound = null;
+            if (!parentNotFound) parentNotFound = $$wrap_NotFound;
             const parentLayouts = route.layouts.slice(0, li);
             const fallbackResp = await renderHTTPAccessFallbackPage(
               route,

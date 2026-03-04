@@ -1,0 +1,162 @@
+.results {
+	display: grid;
+	grid-template-columns: 20% 20% 1fr;
+	grid-template-rows: max-content 1fr;
+	margin: 20px 30px;
+	gap: 10px;
+	height: 90vh;
+
+	h2 {
+		grid-column: 1 / -1;
+	}
+
+	.inspections,
+	.sections {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		overflow-y: auto;
+		border-right: 1px solid lightgrey;
+		padding-right: 10px;
+		min-height: 0;
+
+		label {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			font-size: 14px;
+			padding: 8px 15px;
+			border: 1px solid lightgrey;
+			border-radius: 20px;
+			cursor: pointer;
+		}
+
+		input[type='radio']:checked+label {
+			background-color: #f5f5f5;
+		}
+
+		input {
+			display: none;
+		}
+	}
+
+	.fields {
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		column-gap: 10px;
+		height: max-content;
+		overflow: auto;
+		flex: 1;
+
+		label {
+			padding: 8px 0;
+		}
+
+		input {
+			accent-color: #26284b;
+
+			&:checked+label {
+				color: green;
+				text-decoration: line-through;
+			}
+		}
+
+		h3,
+		textarea {
+			grid-column: span 2;
+		}
+
+		h3:last-of-type {
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		textarea {
+			height: 200px;
+			cursor: default;
+			padding: 10px;
+			border-radius: 10px;
+			border: 1px solid lightgrey;
+			resize: none;
+			width: 100%;
+		}
+	}
+
+	.missing+label {
+		color: red !important;
+	}
+
+	.missing:checked+label {
+		text-decoration: none !important;
+		font-weight: bold;
+	}
+}
+
+.back {
+	margin-top: 10px;
+	padding: 8px 10px;
+	border-radius: 20px;
+	background: #26284b;
+	color: white;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+
+	&:hover {
+		scale: .95;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.results {
+		grid-template-columns: 1fr;
+		height: unset;
+
+		h2 {
+			font-size: 18px;
+		}
+
+		h3 {
+			font-size: 16px;
+		}
+
+		.inspections,
+		.sections {
+			min-height: unset;
+			overflow: unset;
+			padding-right: 0;
+			border-right: unset;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+			h3,
+			.back {
+				grid-column: 1 / -1;
+			}
+
+			.back {
+				width: max-content;
+			}
+
+			label {
+				overflow: hidden;
+				font-size: 12px;
+
+				span {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+		}
+
+		.sections {
+			padding-bottom: 10px;
+			border-bottom: 1px solid lightgrey;
+			grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+		}
+	}
+}

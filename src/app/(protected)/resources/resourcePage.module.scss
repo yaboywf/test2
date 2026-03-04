@@ -1,0 +1,125 @@
+.resources {
+    padding: 20px 30px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: max-content max-content;
+    flex: 1;
+}
+
+.sidebar {
+    height: max-content;
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    grid-row: 1/-1;
+
+    p {
+        border: 1px solid #26284b;
+        border-radius: 15px;
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    align-items: flex-start;
+
+    button {
+        margin-left: 23px;
+        padding: 8px 10px;
+        border-radius: 15px;
+        outline: none;
+        cursor: pointer;
+        font-size: 14px;
+        width: -webkit-fill-available;
+        transition: all 0.2s ease-in-out;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+
+        &::before {
+            position: absolute;
+            top: 0;
+            left: -10px;
+            width: 1px;
+            border-left: 1px solid grey;
+            height: calc(100% + 10px);
+            content: "";
+        }
+
+        &:hover,
+        &.selected {
+            background: #f5f5f5;
+        }
+
+        &:not(:first-child) {
+            margin-top: 10px;
+        }
+    }
+}
+
+.resource-page-blocked {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    width: 100%;
+
+    img {
+        width: 200px !important;
+        height: auto;
+    }
+}
+
+.block-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.content {
+    display: contents;
+}
+
+@media screen and (max-width: 800px) {
+    .resources {
+        grid-template-columns: 1fr;
+
+        .sidebar {
+            position: relative;
+            top: 0;
+            margin-bottom: 10px;
+            min-width: 0;
+        }
+    }
+
+    .buttons {
+        gap: 10px;
+        overflow-x: auto;
+        flex-direction: row;
+        margin-top: 0;
+        min-width: 0;
+        width: 100%;
+
+        button {
+            flex-shrink: 0;
+            margin-top: 0 !important;
+            border: 1px solid #26284b;
+            margin-left: 0;
+            width: max-content;
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+}

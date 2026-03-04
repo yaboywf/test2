@@ -1,0 +1,71 @@
+.container {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid #82b1eb;
+    border-top-right-radius: 20px;
+    box-shadow: 0 0 10px #82b1eb;
+    position: fixed;
+    background: white;
+    z-index: 4;
+    bottom: 0;
+    transition: opacity .3s ease-in-out, pointer-events .3s ease-in-out;
+
+    &[data-open="false"] {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    &[data-open="true"] {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    i {
+        font-size: 30px;
+        color: #82b1eb;
+    }
+
+    h2 {
+        font-size: 20px;
+
+        span {
+            color: #82b1eb;
+        }
+    }
+
+    p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        margin-top: 5px;
+
+        button {
+            background: #26284b;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            transition: scale .3s ease-in-out;
+
+            &:last-of-type {
+                background: unset;
+                border: 2px solid #26284b;
+                color: #26284b;
+            }
+
+            &:hover {
+                scale: 1.05;
+            }
+        }
+    }
+}

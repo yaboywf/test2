@@ -1,0 +1,127 @@
+@use 'sass:color';
+
+.account_creation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    height: max-content;
+    align-items: center;
+    width: 60vw;
+    margin: 20px auto;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, transparent 95%, #f5f5f5 100%);
+    gap: 20px;
+    position: relative;
+
+    &::before {
+        top: 20px;
+        right: 20px;
+        font: var(--fa-font-regular);
+        content: '\f234';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: lightgrey;
+        font-size: 13px;
+        width: 30px;
+        height: 30px;
+        background: #f5f5f5;
+        border-radius: 50%;
+        position: absolute;
+    }
+
+    h2 {
+        grid-column: span 2;
+    }
+
+    button {
+        $color: #4a4c70;
+        $color-light: color.adjust($color, $lightness: 20%);
+
+        cursor: pointer;
+        font-size: 12px;
+        border: 2px solid $color;
+        background: $color-light;
+        display: flex;
+        gap: 5px;
+        width: max-content;
+        color: white;
+        transition: scale 0.2s ease-in-out;
+        border-radius: 10px;
+        padding: 8px 15px;
+
+        &:hover {
+            scale: 1.05;
+        }
+
+        &:last-of-type {
+            margin-left: auto;
+        }
+    }
+
+    div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100%;
+    }
+
+    input, select {
+        padding: 8px 15px;
+        background: #f5f5f5;
+        border-radius: 10px;
+    }
+
+    .tip {
+        height: 40px !important;
+        animation: fadeIn 0.3s ease forwards;
+    }
+
+    .tip, hr {
+        grid-column: span 2;
+    }
+
+    .error {
+        color: red;
+        font-size: 12px;
+        grid-column: span 2;
+        animation: fadeIn 0.3s ease forwards;
+
+        &::before {
+            font: var(--fa-font-regular);
+            content: '\f06a';
+            margin-right: 5px;
+        }
+    }   
+}
+
+@media screen and (max-width: 800px) {
+    .account_creation {
+        width: calc(100% - 40px);
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin: 10px 20px;
+
+        * {
+            grid-column: 1;
+        }
+
+        .tip {
+            width: auto;
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+
+    to {
+        height: 10px;
+        opacity: 1;
+    }
+}

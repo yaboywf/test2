@@ -1,0 +1,101 @@
+.step_indicators {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    width: 500px;
+    margin: 20px auto;
+}
+
+.step_indicator {
+    position: relative;
+    outline: none;
+
+    &.inactive .step_indicator_inner {
+        background-color: #222;
+        color: #a3a3a3;
+        transform: scale(1);
+    }
+
+    &.active .step_indicator_inner {
+        background-color: #5227ff;
+        color: #5227ff;
+        transform: scale(1);
+    }
+
+    &.complete .step_indicator_inner {
+        background-color: #5227ff;
+        color: #3b82f6;
+        transform: scale(1);
+    }
+
+    .step_indicator_inner {
+        display: flex;
+        height: 2rem;
+        width: 2rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        font-weight: 600;
+        transition: background-color 0.2s ease-in-out;
+    }
+}
+
+.active_dot {
+    height: 0.75rem;
+    width: 0.75rem;
+    border-radius: 9999px;
+    background-color: #fff;
+}
+
+.step_number {
+    font-size: 0.875rem;
+}
+
+.step_connector {
+    position: relative;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    height: 0.125rem;
+    flex: 1;
+    overflow: hidden;
+    border-radius: 0.25rem;
+    background-color: lightgrey;
+
+    .step_connector_inner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 100%;
+        background: #5227ff;
+        transition: width 0.3s ease-in-out;
+
+        &.complete {
+            width: 100%;
+        }
+    }
+}
+
+.check_icon {
+    height: 1rem;
+    width: 1rem;
+    color: #fff;
+}
+
+.check_path {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+    animation: draw-check 0.3s ease-out forwards;
+}
+
+@keyframes draw-check {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@media screen and (width < 800px) {
+    .step_indicators {
+        width: 100%;
+    }
+}

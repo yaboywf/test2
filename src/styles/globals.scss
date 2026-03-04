@@ -1,0 +1,123 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+
+    &:not(i) {
+        font-family: sans-serif;
+    }
+}
+
+body {
+    min-height: 100dvh;
+    top: 0 !important;
+}
+
+button {
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+}
+
+select {
+    cursor: pointer;
+}
+
+input,
+select {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: black;
+    border-radius: 0;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+textarea {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: black;
+    border-radius: 0;
+    resize: none;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 80dvh;
+    background: white;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: white;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+
+    img {
+        width: 200px;
+    }
+}
+
+.offline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(183, 183, 183);
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 250px) {
+
+    .layout *,
+    .box footer,
+    header,
+    .box * {
+        display: none !important;
+    }
+
+    .box {
+        height: 100vh;
+    }
+
+    .layout::before,
+    .box::before {
+        display: flex;
+        content: "You are seeing this because your screen is too small";
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        flex: 1;
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,106 @@
+.select {
+    position: absolute;
+    top: 150%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    background: #f5f5f5;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 5px;
+    max-height: 250px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 4;
+    transition: opacity 150ms ease, transform 150ms ease;
+
+    &.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    &.closed {
+        opacity: 0;
+        transform: translateY(-6px);
+        pointer-events: none;
+    }
+
+    .search {
+        position: sticky;
+        top: 0;
+        background: white;
+        border-bottom: 1px solid #e7e9ec;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        i {
+            font-size: 12px;
+
+            &:last-of-type {
+                cursor: pointer;
+            }
+        }
+
+        input {
+            flex: 1;
+        }
+
+        input::-webkit-search-cancel-button {
+            display: none;
+        }
+    }
+
+    p {
+        padding: 3px 10px;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:last-of-type {
+            padding-bottom: 10px;
+        }
+
+        &::before {
+            content: "";
+            width: 15px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        &[data-selected="true"]::before {
+            content: "\f00c";
+            color: #26284b;
+            font: var(--fa-font-regular);
+            margin-right: 5px;
+        }
+    }
+
+
+    &.noTransition {
+        transition: none !important;
+    }
+}
+
+.selected {
+    position: relative;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 5;
+    font-size: 14px;
+    min-width: 220px;
+    padding: 8px 15px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: border 150ms ease;
+
+    &[data-open="true"] {
+        border: 1px solid #26284b;
+    }
+}
+
+.select_container {
+    z-index: 3;
+    position: relative;
+}

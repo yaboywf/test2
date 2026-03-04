@@ -5294,12 +5294,36 @@ function createFromReadableStream(stream, options = {}) {
 }
 const clientReferences = {
   "f29e6e234fea": async () => {
-    const m = await import("./assets/facade__virtual_vinext-rsc-entry-BnODyBkI.js");
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
     return m.export_f29e6e234fea;
   },
   "0deffcb8ffd7": async () => {
-    const m = await import("./assets/facade__virtual_vinext-rsc-entry-BnODyBkI.js");
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
     return m.export_0deffcb8ffd7;
+  },
+  "c2747888630f": async () => {
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
+    return m.export_c2747888630f;
+  },
+  "60f387d9e0f4": async () => {
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
+    return m.export_60f387d9e0f4;
+  },
+  "957c261005b7": async () => {
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
+    return m.export_957c261005b7;
+  },
+  "81098ba4bd29": async () => {
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
+    return m.export_81098ba4bd29;
+  },
+  "0dce242c6c49": async () => {
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
+    return m.export_0dce242c6c49;
+  },
+  "940a5ae8f5fb": async () => {
+    const m = await import("./assets/facade__virtual_vinext-rsc-entry-B3wp977r.js");
+    return m.export_940a5ae8f5fb;
   }
 };
 initialize();
@@ -5365,6 +5389,45 @@ const isServer = typeof window === "undefined";
 function stripBasePath(p) {
   return p;
 }
+function withBasePath(p) {
+  return p;
+}
+const MAX_PREFETCH_CACHE_SIZE = 50;
+function toRscUrl(href) {
+  const [beforeHash] = href.split("#");
+  const qIdx = beforeHash.indexOf("?");
+  const pathname = qIdx === -1 ? beforeHash : beforeHash.slice(0, qIdx);
+  const query = qIdx === -1 ? "" : beforeHash.slice(qIdx);
+  const normalizedPath = pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  return normalizedPath + ".rsc" + query;
+}
+function getPrefetchCache() {
+  if (isServer)
+    return /* @__PURE__ */ new Map();
+  const win = window;
+  if (!win.__VINEXT_RSC_PREFETCH_CACHE__) {
+    win.__VINEXT_RSC_PREFETCH_CACHE__ = /* @__PURE__ */ new Map();
+  }
+  return win.__VINEXT_RSC_PREFETCH_CACHE__;
+}
+function getPrefetchedUrls() {
+  if (isServer)
+    return /* @__PURE__ */ new Set();
+  const win = window;
+  if (!win.__VINEXT_RSC_PREFETCHED_URLS__) {
+    win.__VINEXT_RSC_PREFETCHED_URLS__ = /* @__PURE__ */ new Set();
+  }
+  return win.__VINEXT_RSC_PREFETCHED_URLS__;
+}
+function storePrefetchResponse(rscUrl, response) {
+  const cache = getPrefetchCache();
+  if (cache.size >= MAX_PREFETCH_CACHE_SIZE) {
+    const oldest = cache.keys().next().value;
+    if (oldest !== void 0)
+      cache.delete(oldest);
+  }
+  cache.set(rscUrl, { response, timestamp: Date.now() });
+}
 const _listeners = /* @__PURE__ */ new Set();
 function notifyListeners() {
   for (const fn of _listeners)
@@ -5391,7 +5454,38 @@ function usePathname() {
     };
   }, getPathnameSnapshot, () => _getServerContext()?.pathname ?? "/");
 }
-!isServer ? window.history.replaceState.bind(window.history) : null;
+function isExternalUrl(href) {
+  return /^[a-z][a-z0-9+.-]*:/i.test(href) || href.startsWith("//");
+}
+function isHashOnlyChange(href) {
+  if (typeof window === "undefined")
+    return false;
+  if (href.startsWith("#"))
+    return true;
+  try {
+    const current = new URL(window.location.href);
+    const next = new URL(href, window.location.href);
+    return current.pathname === next.pathname && current.search === next.search && next.hash !== "";
+  } catch {
+    return false;
+  }
+}
+function scrollToHash(hash) {
+  if (!hash || hash === "#") {
+    window.scrollTo(0, 0);
+    return;
+  }
+  const id = hash.slice(1);
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: "auto" });
+  }
+}
+const _nativeReplaceState = !isServer ? window.history.replaceState.bind(window.history) : null;
+function saveScrollPosition() {
+  const state = window.history.state ?? {};
+  _nativeReplaceState.call(window.history, { ...state, __vinext_scrollX: window.scrollX, __vinext_scrollY: window.scrollY }, "");
+}
 function restoreScrollPosition(state) {
   if (state && typeof state === "object" && "__vinext_scrollY" in state) {
     const { __vinext_scrollX: x, __vinext_scrollY: y } = state;
@@ -5410,6 +5504,106 @@ function restoreScrollPosition(state) {
       }
     });
   }
+}
+async function navigateImpl(href, mode, scroll) {
+  if (isExternalUrl(href)) {
+    if (mode === "replace") {
+      window.location.replace(href);
+    } else {
+      window.location.assign(href);
+    }
+    return;
+  }
+  const fullHref = withBasePath(href);
+  if (mode === "push") {
+    saveScrollPosition();
+  }
+  if (isHashOnlyChange(fullHref)) {
+    const hash2 = fullHref.includes("#") ? fullHref.slice(fullHref.indexOf("#")) : "";
+    if (mode === "replace") {
+      window.history.replaceState(null, "", fullHref);
+    } else {
+      window.history.pushState(null, "", fullHref);
+    }
+    notifyListeners();
+    if (scroll) {
+      scrollToHash(hash2);
+    }
+    return;
+  }
+  const hashIdx = fullHref.indexOf("#");
+  const hash = hashIdx !== -1 ? fullHref.slice(hashIdx) : "";
+  if (mode === "replace") {
+    window.history.replaceState(null, "", fullHref);
+  } else {
+    window.history.pushState(null, "", fullHref);
+  }
+  notifyListeners();
+  if (typeof window.__VINEXT_RSC_NAVIGATE__ === "function") {
+    await window.__VINEXT_RSC_NAVIGATE__(fullHref);
+  }
+  if (scroll) {
+    if (hash) {
+      scrollToHash(hash);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+}
+function useRouter() {
+  const router = {
+    push(href, options) {
+      if (isServer)
+        return;
+      void navigateImpl(href, "push", options?.scroll !== false);
+    },
+    replace(href, options) {
+      if (isServer)
+        return;
+      void navigateImpl(href, "replace", options?.scroll !== false);
+    },
+    back() {
+      if (isServer)
+        return;
+      window.history.back();
+    },
+    forward() {
+      if (isServer)
+        return;
+      window.history.forward();
+    },
+    refresh() {
+      if (isServer)
+        return;
+      if (typeof window.__VINEXT_RSC_NAVIGATE__ === "function") {
+        window.__VINEXT_RSC_NAVIGATE__(window.location.href);
+      }
+    },
+    prefetch(href) {
+      if (isServer)
+        return;
+      const fullHref = withBasePath(href);
+      const rscUrl = toRscUrl(fullHref);
+      const prefetched = getPrefetchedUrls();
+      if (prefetched.has(rscUrl))
+        return;
+      prefetched.add(rscUrl);
+      fetch(rscUrl, {
+        headers: { Accept: "text/x-component" },
+        credentials: "include",
+        priority: "low"
+      }).then((response) => {
+        if (response.ok) {
+          storePrefetchResponse(rscUrl, response);
+        } else {
+          prefetched.delete(rscUrl);
+        }
+      }).catch(() => {
+        prefetched.delete(rscUrl);
+      });
+    }
+  };
+  return router;
 }
 function flushServerInsertedHTML() {
   const callbacks = _getInsertedHTMLCallbacks();
@@ -5458,8 +5652,13 @@ const navigation = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePr
   clearServerInsertedHTML,
   flushServerInsertedHTML,
   getLayoutSegmentContext,
+  getPrefetchCache,
+  getPrefetchedUrls,
   setNavigationContext,
-  usePathname
+  storePrefetchResponse,
+  toRscUrl,
+  usePathname,
+  useRouter
 }, Symbol.toStringTag, { value: "Module" }));
 const _ALS_KEY = /* @__PURE__ */ Symbol.for("vinext.navigation.als");
 const _FALLBACK_KEY = /* @__PURE__ */ Symbol.for("vinext.navigation.fallback");
@@ -5723,8 +5922,12 @@ const _virtual_vinextAppSsrEntry = {
   }
 };
 export {
+  getPrefetchedUrls as a,
+  useRouter as b,
   _virtual_vinextAppSsrEntry as default,
   getLayoutSegmentContext as g,
   handleSsr,
+  storePrefetchResponse as s,
+  toRscUrl as t,
   usePathname as u
 };

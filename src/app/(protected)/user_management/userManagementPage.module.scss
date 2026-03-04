@@ -1,0 +1,168 @@
+@use 'sass:color';
+
+.user-management-page {
+	display: flex;
+	flex-direction: column;
+	margin: 10px 20px;
+	gap: 20px;
+	flex: 1;
+
+	.toggle-buttons {
+		display: flex;
+		gap: 20px;
+
+		$color: #26284b;
+		$color-light: color.adjust($color, $lightness: 15%);
+
+		input {
+			display: none;
+		}
+
+		label {
+			text-align: center;
+			flex: 1;
+			max-width: 100px;
+			padding: 5px;
+			border-radius: 20px;
+			cursor: pointer;
+			border: 2px solid $color;
+			transition: scale 0.2s ease-in-out;
+			font-size: 14px;
+
+			&:hover {
+				scale: 1.05
+			}
+		}
+
+		input:checked+label {
+			background: $color-light;
+			color: white;
+		}
+	}
+
+	.users {
+		display: flex;
+	}
+
+	.filter_bar {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		align-items: center;
+
+		.search_box {
+			background: #f5f5f5;
+			width: 300px;
+			display: flex;
+			padding: 5px 10px;
+			border-radius: 20px;
+			gap: 5px;
+			align-items: center;
+
+			input {
+				border: none;
+				outline: none;
+				background: transparent;
+				color: black;
+				border-radius: 0;
+				padding: 5px;
+				width: 100%;
+			}
+		}
+
+		.add_user {
+			height: 30px;
+			aspect-ratio: 1;
+			background: #f5f5f5;
+			color: black;
+			border: none;
+			width: auto;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 12px;
+			border-radius: 20px;
+			cursor: pointer;
+			transition: background 0.2s ease-in-out;
+		}
+
+		.advanced_filters {
+			position: relative;
+
+			span {
+				cursor: pointer;
+				user-select: none;
+				padding: 8px 15px;
+				border-radius: 20px;
+				min-width: 150px;
+				background: #f5f5f5;
+				color: black;
+				display: block;
+				background: #f5f5f5;
+			}
+		}
+
+		.filters {
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 130%;
+			z-index: 2;
+			gap: 8px;
+			width: 150px;
+			padding: 10px 20px;
+			border-radius: 20px;
+			background: white;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+			&[data-open='false'] {
+				display: none;
+			}
+
+			input {
+				display: none;
+			}
+
+			label {
+				user-select: none;
+				cursor: pointer;
+			}
+
+			input:checked+label::before {
+				content: "\f00d";
+				margin-right: 5px;
+				color: red;
+				width: 20px;
+				display: inline-block;
+				font: var(--fa-font-regular);
+			}
+
+			input+label::before {
+				content: "\f00c";
+				margin-right: 5px;
+				width: 20px;
+				display: inline-block;
+				color: green;
+				font: var(--fa-font-regular);
+			}
+		}
+	}
+
+	.users_list {
+		gap: 10px;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	.subtitle {
+		font-size: 12px;
+		color: grey;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.search_box {
+		width: unset !important;
+	}
+}

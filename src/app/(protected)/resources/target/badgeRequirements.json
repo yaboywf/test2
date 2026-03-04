@@ -1,0 +1,69 @@
+{
+    "Leadership": [
+        "Basic: 6 lessons of Leadership Development Course",
+        "Advanced: 12 lessons of Leadership Development Course",
+        "Master: National Leadership Camp"
+    ],
+
+    "Community Spiritedness": [
+        "Basic: 1 stakeholder event, 15 hours of CS",
+        "Advanced: 2 stakeholder events, 30 hours of CS",
+        "Master: 3 stakeholder events, 30 hours of CS, master level project"
+    ],
+
+    "Global Awareness": [
+        "Basic: Choose 3 out of 13 focuses",
+        "Advanced: 3 key stone modules, Research in-depth into 1 of 3 focuses",
+        "Master: Project with action plans to solve problems of chosen topic; Rubrics-based assessment which includes presentation"
+    ],
+
+    "Intermediary Proficiency Award (IPA)": [
+        "Basic Drill",
+        "Basic Adventure",
+        "1 Elective Point",
+        "2 Stakeholder Events",
+        "30 hours of Community Service",
+        "6 lessons of Leadership Development",
+        "3 out of 13 focuses in Global Awareness"
+    ],
+
+    "Senior Proficiency Award (SPA)": [
+        "Intermediary Proficiency Award (IPA)",
+        "Basic Drill",
+        "Basic Adventure",
+        "Total Defence Silver",
+        "Christian Education Award",
+        "4 Elective Points",
+        "2 Stakeholder Events",
+        "30 hours of Community Service",
+        "12 lessons of Leadership Development",
+        "3 key stone modules in Global Awareness",
+        "Research and present findings in Global Awareness"
+    ],
+
+    "Founder's Award": [
+        "Senior Proficiency Award (SPA)",
+        "Basic Drill",
+        "Basic Adventure",
+        "Total Defence Silver",
+        "Christian Education Award",
+        "6 Elective Points",
+        "3 Stakeholder Events",
+        "30 hours of Community Service",
+        "Master Level Project in Community Spiritedness",
+        "National Leadership Camp",
+        "Social Entrepreneurship project in Global Awareness"
+    ],
+
+    "Link Badge": [
+        "Awarded to Boys who were members in the Juniors Programme and have completed the requirements for the award during their last session in the Juniors Programme."
+    ],
+
+    "1 Year Service": [
+        "Awarded to Boys who have served with good conduct and have attended a minimum of 25 parades"
+    ],
+
+    "3 Year Service": [
+        "Awarded to Boys who have served with good conduct and have attended a minimum of 25 parades each year for 3 years"
+    ]
+}

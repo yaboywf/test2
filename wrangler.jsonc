@@ -5,10 +5,10 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "main": "./worker/index.ts",
+  "main": "dist/server/ssr/index.js",
   "assets": {
-    "not_found_handling": "none",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "directory": "./dist/client"
   },
   "images": {
     "binding": "IMAGES"

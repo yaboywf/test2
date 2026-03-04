@@ -1,0 +1,250 @@
+.dashboard {
+    margin: 10px 20px;
+    display: grid;
+    grid-template-columns: 1fr 25vw;
+    gap: 20px;
+    flex: 1;
+
+    h2 {
+        margin-top: 5px;
+    }
+}
+
+.dashboard-routes {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    height: fit-content;
+    gap: 15px;
+}
+
+.vercel-usage {
+    div {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: min-content 1fr;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid black;
+
+        p {
+            font-weight: bold;
+            font-size: 14px;
+            color: #555555;
+
+            span {
+                float: right;
+                font-size: 12px;
+                font-weight: normal;
+                color: #888888;
+            }
+        }
+
+        >span {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+    }
+}
+
+.others {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+    >div {
+        background: #f6f6f6;
+        border-radius: 10px;
+        padding: 20px;
+    }
+}
+
+.pending-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .tasks {
+        flex: 1;
+        display: flex;
+
+        ol {
+            list-style-position: outside;
+            margin-left: 20px;
+        }
+
+        li {
+            line-height: 1.2;
+        }
+
+        >div {
+            justify-content: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            i {
+                font-size: 45px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.route {
+    --base: var(--color);
+    --bg: color-mix(in srgb, var(--base) 65%, white);
+    --icon: color-mix(in srgb, var(--base) 65%, black);
+
+    padding: 15px;
+    border-radius: 10px;
+    border: 3px solid var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: start;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 5px 5px rgba($color: #000000, $alpha: 0.2);
+        transform: translateY(-5px);
+
+        div {
+            transform-origin: center;
+            transform: scale(1.05);
+        }
+
+        p:first-of-type {
+            color: var(--icon);
+        }
+    }
+
+    >div {
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    i {
+        font-size: 30px;
+        color: var(--icon);
+    }
+
+    p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.3s ease;
+
+        &:first-of-type {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        &:last-of-type {
+            font-size: 14px;
+            height: auto;
+            color: #555555;
+        }
+    }
+
+    div div {
+        width: 30px;
+        height: 30px;
+        background-color: #252850;
+        mask: url(/awards_tracker.webp) no-repeat center;
+        mask-size: contain;
+    }
+
+    @for $i from 1 through 10 {
+        &:nth-of-type(#{$i}) {
+            animation-delay: #{0.1 * $i}s;
+        }
+    }
+}
+
+.access_levels {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px;
+
+    div {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: var(--legend);
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 800px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "welcome"
+            "routes"
+            "legend"
+            "pending"
+            "usage";
+    }
+
+    .dashboard-routes {
+        grid-area: routes;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .others {
+        display: contents;
+    }
+
+    .others>div:nth-child(1) {
+        grid-area: welcome;
+    }
+
+    .others>div:nth-child(2) {
+        grid-area: pending;
+    }
+
+    .others>div:nth-child(3) {
+        grid-area: legend;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .routes {
+        height: max-content;   
+    }
+}
+
+:global {
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+}

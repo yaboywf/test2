@@ -1,0 +1,23 @@
+.thumbnail {
+    position: relative;
+    cursor: pointer;
+    aspect-ratio: 16 / 9;
+    background-size: cover;
+    background-position: center;
+}
+
+.playButton {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 40px;
+}
+
+.video {
+    aspect-ratio: 16 / 9;
+    border: none;
+}
